@@ -9,39 +9,45 @@ const FIRST_FOUR = [
 ];
 
 const ROUND64 = [
-  { id:"r1",  date:"Thu Mar 19", time:"12:15 PM", away:"Ohio State Buckeyes",      home:"TCU Horned Frogs",         seed_away:8,  seed_home:9,  region:"South",   tv:"CBS"   },
-  { id:"r2",  date:"Thu Mar 19", time:"12:40 PM", away:"Nebraska Cornhuskers",     home:"Troy Trojans",             seed_away:4,  seed_home:13, region:"South",   tv:"truTV" },
-  { id:"r3",  date:"Thu Mar 19", time:"1:30 PM",  away:"Louisville Cardinals",     home:"South Florida Bulls",      seed_away:5,  seed_home:12, region:"West",    tv:"TBS"   },
-  { id:"r4",  date:"Thu Mar 19", time:"1:50 PM",  away:"Wisconsin Badgers",        home:"High Point Panthers",      seed_away:4,  seed_home:13, region:"West",    tv:"TNT"   },
-  { id:"r5",  date:"Thu Mar 19", time:"2:50 PM",  away:"Duke Blue Devils",         home:"Siena Saints",             seed_away:1,  seed_home:16, region:"East",    tv:"CBS"   },
-  { id:"r6",  date:"Thu Mar 19", time:"3:15 PM",  away:"Vanderbilt Commodores",    home:"McNeese Cowboys",          seed_away:5,  seed_home:12, region:"South",   tv:"truTV" },
-  { id:"r7",  date:"Thu Mar 19", time:"4:05 PM",  away:"Michigan State Spartans",  home:"North Dakota State Bison", seed_away:6,  seed_home:11, region:"West",    tv:"TBS"   },
-  { id:"r8",  date:"Thu Mar 19", time:"4:25 PM",  away:"Arkansas Razorbacks",      home:"Hawai'i Rainbow Warriors", seed_away:3,  seed_home:14, region:"Midwest", tv:"TNT"   },
-  { id:"r9",  date:"Thu Mar 19", time:"6:50 PM",  away:"North Carolina Tar Heels", home:"VCU Rams",                 seed_away:6,  seed_home:11, region:"South",   tv:"TNT"   },
-  { id:"r10", date:"Thu Mar 19", time:"7:10 PM",  away:"Michigan Wolverines",      home:"FF Winner (NC St/TX)",     seed_away:1,  seed_home:16, region:"Midwest", tv:"CBS"   },
-  { id:"r11", date:"Thu Mar 19", time:"7:35 PM",  away:"Saint Mary's Gaels",       home:"Texas A&M Aggies",         seed_away:7,  seed_home:10, region:"South",   tv:"truTV" },
-  { id:"r12", date:"Thu Mar 19", time:"9:25 PM",  away:"Illinois Fighting Illini", home:"Penn Quakers",             seed_away:3,  seed_home:14, region:"South",   tv:"TNT"   },
-  { id:"r13", date:"Thu Mar 19", time:"9:45 PM",  away:"Georgia Bulldogs",         home:"Saint Louis Billikens",    seed_away:8,  seed_home:9,  region:"Midwest", tv:"CBS"   },
-  { id:"r14", date:"Thu Mar 19", time:"10:00 PM", away:"Auburn Tigers",            home:"FF Winner (MIA OH/SMU)",   seed_away:2,  seed_home:15, region:"East",    tv:"truTV" },
-  { id:"r15", date:"Thu Mar 19", time:"10:10 PM", away:"Houston Cougars",          home:"Idaho Vandals",            seed_away:2,  seed_home:15, region:"South",    tv:"truTV" },
-  { id:"r16", date:"Thu Mar 19", time:"10:25 PM", away:"BYU Cougars",              home:"New Mexico Lobos",         seed_away:7,  seed_home:10, region:"Midwest", tv:"CBS"   },
-  { id:"r17", date:"Fri Mar 20", time:"12:15 PM", away:"Florida Gators",           home:"FF Winner (PV/Lehigh)",    seed_away:1,  seed_home:16, region:"West",    tv:"CBS"   },
-  { id:"r18", date:"Fri Mar 20", time:"12:40 PM", away:"Texas Tech Red Raiders",   home:"Akron Zips",               seed_away:5,  seed_home:12, region:"Midwest", tv:"truTV" },
-  { id:"r19", date:"Fri Mar 20", time:"1:15 PM",  away:"Purdue Boilermakers",      home:"High Point Panthers",      seed_away:7,  seed_home:10, region:"East",    tv:"TBS"   },
-  { id:"r20", date:"Fri Mar 20", time:"1:50 PM",  away:"Virginia Cavaliers",       home:"Wright State Raiders",     seed_away:3,  seed_home:14, region:"Midwest", tv:"TBS"   },
-  { id:"r21", date:"Fri Mar 20", time:"2:45 PM",  away:"Oregon Ducks",             home:"Liberty Flames",           seed_away:6,  seed_home:11, region:"West",    tv:"CBS"   },
-  { id:"r22", date:"Fri Mar 20", time:"3:15 PM",  away:"Alabama Crimson Tide",     home:"Hofstra Pride",            seed_away:4,  seed_home:13, region:"Midwest", tv:"truTV" },
-  { id:"r23", date:"Fri Mar 20", time:"4:15 PM",  away:"St. John's Red Storm",     home:"Omaha Mavericks",          seed_away:2,  seed_home:15, region:"West",    tv:"TBS"   },
-  { id:"r24", date:"Fri Mar 20", time:"4:25 PM",  away:"Tennessee Volunteers",     home:"FF Winner (NC St/TX)",     seed_away:6,  seed_home:11, region:"Midwest", tv:"TBS"   },
-  { id:"r25", date:"Fri Mar 20", time:"6:50 PM",  away:"Iowa State Cyclones",      home:"Lipscomb Bisons",          seed_away:3,  seed_home:14, region:"West",    tv:"TNT"   },
-  { id:"r26", date:"Fri Mar 20", time:"7:10 PM",  away:"Kansas Jayhawks",          home:"Colgate Raiders",          seed_away:2,  seed_home:15, region:"East",    tv:"CBS"   },
-  { id:"r27", date:"Fri Mar 20", time:"7:35 PM",  away:"Creighton Bluejays",       home:"UC San Diego Tritons",     seed_away:8,  seed_home:9,  region:"West",    tv:"truTV" },
-  { id:"r28", date:"Fri Mar 20", time:"9:25 PM",  away:"Kentucky Wildcats",        home:"Troy Trojans",             seed_away:7,  seed_home:10, region:"East",    tv:"TNT"   },
-  { id:"r29", date:"Fri Mar 20", time:"9:40 PM",  away:"Gonzaga Bulldogs",         home:"Akron Zips",               seed_away:4,  seed_home:13, region:"East",    tv:"CBS"   },
-  { id:"r30", date:"Fri Mar 20", time:"9:57 PM",  away:"Maryland Terrapins",       home:"Grand Canyon Antelopes",   seed_away:5,  seed_home:12, region:"East",    tv:"truTV" },
-  { id:"r31", date:"Fri Mar 20", time:"10:10 PM", away:"Marquette Golden Eagles",  home:"Morehead State Eagles",    seed_away:8,  seed_home:9,  region:"North",   tv:"TBS"   },
-  { id:"r32", date:"Fri Mar 20", time:"10:25 PM", away:"UConn Huskies",            home:"FF Winner (UMBC/Howard)",  seed_away:1,  seed_home:16, region:"North",   tv:"CBS"   },
+  // ── EAST — Thu Mar 19 / Fri Mar 20 ──
+  { id:"r1",  date:"Thu Mar 19", time:"2:50 PM",  away:"Siena Saints",             home:"Duke Blue Devils",         seed_away:16, seed_home:1,  region:"East",    tv:"CBS",   nobet:true  },
+  { id:"r2",  date:"Thu Mar 19", time:"12:15 PM", away:"TCU Horned Frogs",         home:"Ohio State Buckeyes",      seed_away:9,  seed_home:8,  region:"East",    tv:"CBS"   },
+  { id:"r3",  date:"Fri Mar 20", time:"7:10 PM",  away:"Northern Iowa Panthers",   home:"St. John's Red Storm",     seed_away:12, seed_home:5,  region:"East",    tv:"CBS",   nobet:true  },
+  { id:"r4",  date:"Fri Mar 20", time:"9:45 PM",  away:"Cal Baptist Lancers",      home:"Kansas Jayhawks",          seed_away:13, seed_home:4,  region:"East",    tv:"CBS"   },
+  { id:"r5",  date:"Thu Mar 19", time:"1:30 PM",  away:"South Florida Bulls",      home:"Louisville Cardinals",     seed_away:11, seed_home:6,  region:"East",    tv:"TNT"   },
+  { id:"r6",  date:"Thu Mar 19", time:"4:05 PM",  away:"North Dakota State Bison", home:"Michigan State Spartans",  seed_away:14, seed_home:3,  region:"East",    tv:"TNT"   },
+  { id:"r7",  date:"Fri Mar 20", time:"7:25 PM",  away:"UCF Knights",              home:"UCLA Bruins",              seed_away:10, seed_home:7,  region:"East",    tv:"TBS"   },
+  { id:"r8",  date:"Fri Mar 20", time:"10:00 PM", away:"Furman Paladins",          home:"UConn Huskies",            seed_away:15, seed_home:2,  region:"East",    tv:"TBS"   },
+  // ── WEST — Thu Mar 19 / Fri Mar 20 ──
+  { id:"r9",  date:"Fri Mar 20", time:"1:35 PM",  away:"LIU Sharks",               home:"Arizona Wildcats",         seed_away:16, seed_home:1,  region:"West",    tv:"TNT"   },
+  { id:"r10", date:"Fri Mar 20", time:"4:10 PM",  away:"Utah State Aggies",        home:"Villanova Wildcats",       seed_away:9,  seed_home:8,  region:"West",    tv:"TNT"   },
+  { id:"r11", date:"Thu Mar 19", time:"1:50 PM",  away:"High Point Panthers",      home:"Wisconsin Badgers",        seed_away:12, seed_home:5,  region:"West",    tv:"TBS"   },
+  { id:"r12", date:"Thu Mar 19", time:"4:25 PM",  away:"Hawai'i Rainbow Warriors", home:"Arkansas Razorbacks",      seed_away:13, seed_home:4,  region:"West",    tv:"TBS"   },
+  { id:"r13", date:"Thu Mar 19", time:"7:25 PM",  away:"FF Winner (NC St/TX)",     home:"BYU Cougars",              seed_away:11, seed_home:6,  region:"West",    tv:"TBS"   },
+  { id:"r14", date:"Thu Mar 19", time:"10:00 PM", away:"Kennesaw State Owls",      home:"Gonzaga Bulldogs",         seed_away:14, seed_home:3,  region:"West",    tv:"TBS"   },
+  { id:"r15", date:"Fri Mar 20", time:"10:10 PM", away:"Missouri Tigers",          home:"Miami (FL) Hurricanes",    seed_away:10, seed_home:7,  region:"West",    tv:"truTV" },
+  { id:"r16", date:"Fri Mar 20", time:"7:35 PM",  away:"Queens NC Royals",         home:"Purdue Boilermakers",      seed_away:15, seed_home:2,  region:"West",    tv:"truTV" },
+  // ── MIDWEST — Thu Mar 19 / Fri Mar 20 ──
+  { id:"r17", date:"Thu Mar 19", time:"7:10 PM",  away:"FF Winner (UMBC/Howard)",  home:"Michigan Wolverines",      seed_away:16, seed_home:1,  region:"Midwest", tv:"CBS"   },
+  { id:"r18", date:"Thu Mar 19", time:"9:45 PM",  away:"Saint Louis Billikens",    home:"Georgia Bulldogs",         seed_away:9,  seed_home:8,  region:"Midwest", tv:"CBS"   },
+  { id:"r19", date:"Fri Mar 20", time:"12:40 PM", away:"Akron Zips",               home:"Texas Tech Red Raiders",   seed_away:12, seed_home:5,  region:"Midwest", tv:"truTV" },
+  { id:"r20", date:"Fri Mar 20", time:"3:15 PM",  away:"Hofstra Pride",            home:"Alabama Crimson Tide",     seed_away:13, seed_home:4,  region:"Midwest", tv:"truTV", nobet:true  },
+  { id:"r21", date:"Fri Mar 20", time:"4:25 PM",  away:"FF Winner (MIA OH/SMU)",   home:"Tennessee Volunteers",     seed_away:11, seed_home:6,  region:"Midwest", tv:"TBS"   },
+  { id:"r22", date:"Fri Mar 20", time:"1:50 PM",  away:"Wright State Raiders",     home:"Virginia Cavaliers",       seed_away:14, seed_home:3,  region:"Midwest", tv:"TBS"   },
+  { id:"r23", date:"Fri Mar 20", time:"12:15 PM", away:"Santa Clara Broncos",      home:"Kentucky Wildcats",        seed_away:10, seed_home:7,  region:"Midwest", tv:"CBS"   },
+  { id:"r24", date:"Fri Mar 20", time:"2:50 PM",  away:"Tennessee State Tigers",   home:"Iowa State Cyclones",      seed_away:15, seed_home:2,  region:"Midwest", tv:"CBS"   },
+  // ── SOUTH — Thu Mar 19 / Fri Mar 20 ──
+  { id:"r25", date:"Thu Mar 19", time:"9:25 PM",  away:"FF Winner (PV/Lehigh)",    home:"Florida Gators",           seed_away:16, seed_home:1,  region:"South",   tv:"TNT"   },
+  { id:"r26", date:"Fri Mar 20", time:"6:50 PM",  away:"Iowa Hawkeyes",            home:"Clemson Tigers",           seed_away:9,  seed_home:8,  region:"South",   tv:"TNT"   },
+  { id:"r27", date:"Thu Mar 19", time:"3:15 PM",  away:"McNeese Cowboys",          home:"Vanderbilt Commodores",    seed_away:12, seed_home:5,  region:"South",   tv:"truTV" },
+  { id:"r28", date:"Thu Mar 19", time:"12:40 PM", away:"Troy Trojans",             home:"Nebraska Cornhuskers",     seed_away:13, seed_home:4,  region:"South",   tv:"truTV" },
+  { id:"r29", date:"Thu Mar 19", time:"6:50 PM",  away:"VCU Rams",                 home:"North Carolina Tar Heels", seed_away:11, seed_home:6,  region:"South",   tv:"TNT"   },
+  { id:"r30", date:"Thu Mar 19", time:"9:25 PM",  away:"Penn Quakers",             home:"Illinois Fighting Illini", seed_away:14, seed_home:3,  region:"South",   tv:"TNT"   },
+  { id:"r31", date:"Thu Mar 19", time:"7:35 PM",  away:"Texas A&M Aggies",         home:"Saint Mary's Gaels",       seed_away:10, seed_home:7,  region:"South",   tv:"truTV" },
+  { id:"r32", date:"Thu Mar 19", time:"10:10 PM", away:"Idaho Vandals",            home:"Houston Cougars",          seed_away:15, seed_home:2,  region:"South",   tv:"truTV" },
 ];
+
+
 
 // Add more rounds here as tournament progresses:
 // const ROUND32 = [ ... ];
@@ -57,13 +63,48 @@ const ADMIN_PIN  = "1234";
 const STORE_KEY  = "bracket_bookie_v1";
 
 // ── DEFAULT ODDS (DraftKings) ──────────────────────────────────────────────
-// Pre-loaded so public board shows odds immediately.
-// Admin can still override these in the Odds tab.
 const DEFAULT_ODDS = {
-  ff1: { dog:"UMBC Retrievers",        underdog_ml:"+102", first_10:"",    tie:"+800" },
-  ff2: { dog:"NC State Wolfpack",      underdog_ml:"+110", first_10:"",    tie:"+750" },
-  ff3: { dog:"Prairie View A&M Panthers", underdog_ml:"+140", first_10:"", tie:"+800" },
-  ff4: { dog:"Miami (OH) RedHawks",    underdog_ml:"+250", first_10:"",    tie:"+900" },
+  // ── First Four ──
+  ff1: { dog:"UMBC Retrievers",           underdog_ml:"+102",  first_10:"-125", tie:"+800" },
+  ff2: { dog:"NC State Wolfpack",         underdog_ml:"+110",  first_10:"-115", tie:"+750" },
+  ff3: { dog:"Prairie View A&M Panthers", underdog_ml:"+140",  first_10:"-105", tie:"+800" },
+  ff4: { dog:"Miami (OH) RedHawks",       underdog_ml:"+250",  first_10:"+120", tie:"+900" },
+  // ── EAST ──
+  r1:  { dog:"Siena Saints",              underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
+  r2:  { dog:"TCU Horned Frogs",          underdog_ml:"+120",  first_10:"+105", tie:"" },
+  r3:  { dog:"Northern Iowa Panthers",    underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
+  r4:  { dog:"Cal Baptist Lancers",       underdog_ml:"+750",  first_10:"+180", tie:"" },
+  r5:  { dog:"South Florida Bulls",       underdog_ml:"+185",  first_10:"+115", tie:"" },
+  r6:  { dog:"North Dakota State Bison",  underdog_ml:"+1000", first_10:"+205", tie:"" },
+  r7:  { dog:"UCF Knights",              underdog_ml:"+205",  first_10:"+120", tie:"" },
+  r8:  { dog:"Furman Paladins",           underdog_ml:"+1700", first_10:"+285", tie:"" },
+  // ── WEST ──
+  r9:  { dog:"LIU Sharks",               underdog_ml:"",      first_10:"",     tie:"" },
+  r10: { dog:"Utah State Aggies",         underdog_ml:"+114",  first_10:"-130", tie:"" },
+  r11: { dog:"High Point Panthers",       underdog_ml:"+370",  first_10:"+135", tie:"" },
+  r12: { dog:"Hawai'i Rainbow Warriors",  underdog_ml:"+800",  first_10:"+175", tie:"" },
+  r13: { dog:"FF Winner (NC St/TX)",      underdog_ml:"",      first_10:"",     tie:"" },
+  r14: { dog:"Kennesaw State Owls",       underdog_ml:"+1400", first_10:"+235", tie:"" },
+  r15: { dog:"Missouri Tigers",           underdog_ml:"+110",  first_10:"-105", tie:"" },
+  r16: { dog:"Queens NC Royals",          underdog_ml:"+2200", first_10:"+290", tie:"" },
+  // ── MIDWEST ──
+  r17: { dog:"FF Winner (UMBC/Howard)",   underdog_ml:"",      first_10:"",     tie:"" },
+  r18: { dog:"Saint Louis Billikens",     underdog_ml:"+136",  first_10:"+100", tie:"" },
+  r19: { dog:"Akron Zips",               underdog_ml:"+260",  first_10:"+120", tie:"" },
+  r20: { dog:"Hofstra Pride",             underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
+  r21: { dog:"FF Winner (MIA OH/SMU)",    underdog_ml:"",      first_10:"",     tie:"" },
+  r22: { dog:"Wright State Raiders",      underdog_ml:"+1300", first_10:"+245", tie:"" },
+  r23: { dog:"Santa Clara Broncos",       underdog_ml:"+140",  first_10:"+105", tie:"" },
+  r24: { dog:"Tennessee State Tigers",    underdog_ml:"+2200", first_10:"+300", tie:"" },
+  // ── SOUTH ──
+  r25: { dog:"FF Winner (PV/Lehigh)",     underdog_ml:"",      first_10:"",     tie:"" },
+  r26: { dog:"Iowa Hawkeyes",             underdog_ml:"+114",  first_10:"-130", tie:"" },
+  r27: { dog:"McNeese Cowboys",           underdog_ml:"+455",  first_10:"+150", tie:"" },
+  r28: { dog:"Troy Trojans",              underdog_ml:"+650",  first_10:"+165", tie:"" },
+  r29: { dog:"VCU Rams",                  underdog_ml:"+114",  first_10:"-105", tie:"" },
+  r30: { dog:"Penn Quakers",              underdog_ml:"+2000", first_10:"+310", tie:"" },
+  r31: { dog:"Texas A&M Aggies",          underdog_ml:"+136",  first_10:"+100", tie:"" },
+  r32: { dog:"Idaho Vandals",             underdog_ml:"+2200", first_10:"+350", tie:"" },
 };
 
 const fmt = (v) => { const n=parseFloat(v); if(!v||isNaN(n)) return null; return n>0?`+${n}`:`${n}`; };
@@ -154,20 +195,22 @@ export default function App() {
   };
 
   // ── math ───────────────────────────────────────────────────────────────
-  const people     = Object.entries(pool);
-  const numFF      = FIRST_FOUR.length;
-  const numAll     = ALL_GAMES.length;
+  const people      = Object.entries(pool);
+  const bettableFF  = FIRST_FOUR.filter(g=>!g.nobet);
+  const bettableAll = ALL_GAMES.filter(g=>!g.nobet);
+  const numFF       = bettableFF.length;
+  const numAll      = bettableAll.length;
   const poolTotals = BET_KEYS.reduce((a,k)=>{a[k]=people.reduce((s,[,d])=>s+(d[k]||0),0);return a;},{});
   const perGameFF  = BET_KEYS.reduce((a,k)=>{a[k]=poolTotals[k]>0?poolTotals[k]/numFF:0;return a;},{});
   const perGameAll = BET_KEYS.reduce((a,k)=>{a[k]=poolTotals[k]>0?poolTotals[k]/numAll:0;return a;},{});
-  const hitCounts  = BET_KEYS.reduce((a,k)=>{a[k]=ALL_GAMES.filter(g=>results[g.id]?.[k]===true).length;return a;},{});
+  const hitCounts  = BET_KEYS.reduce((a,k)=>{a[k]=bettableAll.filter(g=>results[g.id]?.[k]===true).length;return a;},{});
 
   const personPayouts = (name) => {
     const d=pool[name]; if(!d) return {};
     return BET_KEYS.reduce((acc,k)=>{
       const share=poolTotals[k]>0?(d[k]||0)/poolTotals[k]:0;
       let win=0;
-      ALL_GAMES.forEach(g=>{
+      bettableAll.forEach(g=>{
         if(results[g.id]?.[k]===true){
           const p=calcPayout(perGameAll[k],odds[g.id]?.[k]);
           if(p) win+=p*share;
@@ -221,6 +264,17 @@ export default function App() {
   // ── game card renderers ────────────────────────────────────────────────
   const pubCard = (game) => {
     const go=odds[game.id]||{}, res=results[game.id]||{};
+    if (game.nobet) return (
+      <div key={game.id} style={{...PUB_CARD, opacity:0.5}}>
+        <div style={{padding:"14px 18px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}}>
+          <div>
+            <div style={{fontSize:10,color:"#94a3b8",letterSpacing:2,marginBottom:4}}>{game.time} ET · {game.tv} · {game.region.toUpperCase()}</div>
+            <div style={{fontWeight:800,fontSize:17,color:"#0f172a"}}>#{game.seed_away} {game.away} <span style={{color:"#94a3b8",fontWeight:400,fontSize:13,margin:"0 10px"}}>vs</span> #{game.seed_home} {game.home}</div>
+          </div>
+          <span style={{background:"#fef2f2",color:"#dc2626",border:"2px solid #dc2626",borderRadius:8,padding:"6px 14px",fontWeight:800,fontSize:13}}>🚫 NO BET — NY Restriction</span>
+        </div>
+      </div>
+    );
     return (
       <div key={game.id} style={PUB_CARD}>
         <div style={{padding:"14px 18px 12px",borderBottom:"1px solid #e2e8f0"}}>
