@@ -56,6 +56,16 @@ const BET_LIGHT  = { underdog_ml:"#fef3c7", first_10:"#dbeafe", tie:"#ede9fe" };
 const ADMIN_PIN  = "1234";
 const STORE_KEY  = "bracket_bookie_v1";
 
+// ── DEFAULT ODDS (DraftKings) ──────────────────────────────────────────────
+// Pre-loaded so public board shows odds immediately.
+// Admin can still override these in the Odds tab.
+const DEFAULT_ODDS = {
+  ff1: { dog:"UMBC Retrievers",        underdog_ml:"+102", first_10:"",    tie:"+800" },
+  ff2: { dog:"NC State Wolfpack",      underdog_ml:"+110", first_10:"",    tie:"+750" },
+  ff3: { dog:"Prairie View A&M Panthers", underdog_ml:"+140", first_10:"", tie:"+800" },
+  ff4: { dog:"Miami (OH) RedHawks",    underdog_ml:"+250", first_10:"",    tie:"+900" },
+};
+
 const fmt = (v) => { const n=parseFloat(v); if(!v||isNaN(n)) return null; return n>0?`+${n}`:`${n}`; };
 const calcPayout = (stake, oddStr) => {
   const n=parseFloat(oddStr);
@@ -85,7 +95,7 @@ export default function App() {
   const [importErr,    setImportErr]    = useState("");
   const [importOk,     setImportOk]     = useState(false);
 
-  const [odds,    setOdds]    = useState({});
+  const [odds,    setOdds]    = useState(DEFAULT_ODDS);
   const [results, setResults] = useState({});
   const [pool,    setPool]    = useState({});
   const [pForm,   setPForm]   = useState({name:"",underdog_ml:"",first_10:"",tie:""});
@@ -97,7 +107,8 @@ export default function App() {
       const raw = localStorage.getItem(STORE_KEY);
       if (raw) {
         const d = JSON.parse(raw);
-        if (d.odds)    setOdds(d.odds);
+        // Merge: saved odds override defaults, but defaults fill any gaps
+        if (d.odds)    setOdds({...DEFAULT_ODDS, ...d.odds});
         if (d.results) setResults(d.results);
         if (d.pool)    setPool(d.pool);
       }
