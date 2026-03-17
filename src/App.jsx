@@ -70,13 +70,13 @@ const DEFAULT_ODDS = {
   ff3: { dog:"Prairie View A&M Panthers", underdog_ml:"+140",  first_10:"-105", tie:"+800" },
   ff4: { dog:"Miami (OH) RedHawks",       underdog_ml:"+250",  first_10:"+120", tie:"+900" },
   // ── EAST ──
-  r1:  { dog:"Siena Saints",              underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
+  r1:  { dog:"Siena Saints",              underdog_ml:"NO BET",  first_10:"NO BET",  tie:"NO BET" },
   r2:  { dog:"TCU Horned Frogs",          underdog_ml:"+120",  first_10:"+105", tie:"" },
-  r3:  { dog:"Northern Iowa Panthers",    underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
+  r3:  { dog:"Northern Iowa Panthers",    underdog_ml:"NO BET",  first_10:"NO BET",  tie:"NO BET" },
   r4:  { dog:"Cal Baptist Lancers",       underdog_ml:"+750",  first_10:"+180", tie:"" },
   r5:  { dog:"South Florida Bulls",       underdog_ml:"+185",  first_10:"+115", tie:"" },
   r6:  { dog:"North Dakota State Bison",  underdog_ml:"+1000", first_10:"+205", tie:"" },
-  r7:  { dog:"UCF Knights",              underdog_ml:"+205",  first_10:"+120", tie:"" },
+  r7:  { dog:"UCF Knights",               underdog_ml:"+205",  first_10:"+120", tie:"" },
   r8:  { dog:"Furman Paladins",           underdog_ml:"+1700", first_10:"+285", tie:"" },
   // ── WEST ──
   r9:  { dog:"LIU Sharks",               underdog_ml:"",      first_10:"",     tie:"" },
