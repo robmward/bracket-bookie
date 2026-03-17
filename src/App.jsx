@@ -154,7 +154,7 @@ export default function App() {
       const raw = localStorage.getItem(STORE_KEY);
       if (raw) {
         const d = JSON.parse(raw);
-        if (d.odds)    setOdds({...DEFAULT_ODDS,...d.odds});
+        // Odds are always from DEFAULT_ODDS in code — never restored from backup
         if (d.results) setResults(d.results);
         if (d.pools)   setPools(d.pools);
         if (d.skipped) setSkipped(d.skipped);
@@ -165,7 +165,7 @@ export default function App() {
   useEffect(() => {
     const t = setTimeout(() => {
       try {
-        localStorage.setItem(STORE_KEY, JSON.stringify({odds,results,pools,skipped}));
+        localStorage.setItem(STORE_KEY, JSON.stringify({results,pools,skipped}));
         setSaveStatus("saved");
         setTimeout(()=>setSaveStatus("idle"),2000);
       } catch(e) { setSaveStatus("error"); setTimeout(()=>setSaveStatus("idle"),3000); }
@@ -264,12 +264,12 @@ export default function App() {
     ].map(r=>r.join(",")).join("\n");
     dl(rows,`bracket_bookie_${roundLabel}.csv`,"text/csv");
   };
-  const exportJSON = () => dl(JSON.stringify({odds,results,pools,skipped},null,2),"bracket_bookie_backup.json","application/json");
+  const exportJSON = () => dl(JSON.stringify({results,pools,skipped},null,2),"bracket_bookie_backup.json","application/json");
   const importData = () => {
     try {
       const d=JSON.parse(importText);
-      if(!d.odds) throw new Error();
-      setOdds(d.odds||{}); setResults(d.results||{}); setPools(d.pools||{}); setSkipped(d.skipped||{});
+      if(!d.results && !d.pools) throw new Error();
+      setResults(d.results||{}); setPools(d.pools||{}); setSkipped(d.skipped||{});
       setImportOk(true); setImportErr(""); setImportText("");
       setTimeout(()=>setImportOk(false),2500);
     } catch { setImportErr("Invalid — paste the full JSON backup contents."); }
