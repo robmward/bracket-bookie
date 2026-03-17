@@ -65,8 +65,8 @@ const STORE_KEY  = "bracket_bookie_v2";
 
 // ── DEFAULT ODDS (DraftKings) ──────────────────────────────────────────────
 const DEFAULT_ODDS = {
-  ff1: { dog:"UMBC Retrievers",           underdog_ml:"+102",  first_10:"-125", tie:"+800" },
-  ff2: { dog:"NC State Wolfpack",         underdog_ml:"+110",  first_10:"-115", tie:"+800" },
+  ff1: { dog:"UMBC Retrievers",           underdog_ml:"-108",  first_10:"-115", tie:"+800" },
+  ff2: { dog:"Texas Longhorns",           underdog_ml:"+105",  first_10:"-110", tie:"+750" },
   ff3: { dog:"Prairie View A&M Panthers", underdog_ml:"+140",  first_10:"-105", tie:"+800" },
   ff4: { dog:"Miami (OH) RedHawks",       underdog_ml:"+250",  first_10:"+120", tie:"+900" },
   r1:  { dog:"Siena Saints",              underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
