@@ -1,4 +1,4 @@
-\import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // ── GAME DATA ──────────────────────────────────────────────────────────────
 const FIRST_FOUR = [
@@ -62,26 +62,19 @@ const BET_COLOR  = { underdog_ml:"#d97706", first_10:"#2563eb", tie:"#7c3aed" };
 const BET_LIGHT  = { underdog_ml:"#fef3c7", first_10:"#dbeafe", tie:"#ede9fe" };
 const ADMIN_PIN  = "1234";
 const STORE_KEY  = "bracket_bookie_v2";
-const GH_TOKEN   = import.meta.env.VITE_GH_TOKEN;
-const GH_OWNER   = "robmward";
-const GH_REPO    = "bracket-bookie";
-const GH_FILE    = "src/data/gamedata.json";
-const GH_API     = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+const FN_URL = "/.netlify/functions/gamedata";
 
 const ghRead = async () => {
   try {
-    const res = await fetch(GH_API, {headers:{"Authorization":`token ${GH_TOKEN}`,"Accept":"application/vnd.github.v3+json"}});
+    const res = await fetch(FN_URL);
     if(!res.ok) return null;
-    const json = await res.json();
-    const data = JSON.parse(atob(json.content));
-    return {data, sha: json.sha};
+    return await res.json();
   } catch(e) { console.warn("GH read failed",e); return null; }
 };
 
 const ghWrite = async (data, sha) => {
   try {
-    const body = {message:"Update game data",content:btoa(JSON.stringify(data,null,2)),sha};
-    const res = await fetch(GH_API, {method:"PUT",headers:{"Authorization":`token ${GH_TOKEN}`,"Accept":"application/vnd.github.v3+json","Content-Type":"application/json"},body:JSON.stringify(body)});
+    const res = await fetch(FN_URL, {method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({data,sha})});
     return res.ok;
   } catch(e) { console.warn("GH write failed",e); return false; }
 };
