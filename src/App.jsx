@@ -62,6 +62,29 @@ const BET_COLOR  = { underdog_ml:"#d97706", first_10:"#2563eb", tie:"#7c3aed" };
 const BET_LIGHT  = { underdog_ml:"#fef3c7", first_10:"#dbeafe", tie:"#ede9fe" };
 const ADMIN_PIN  = "1234";
 const STORE_KEY  = "bracket_bookie_v2";
+const GH_TOKEN   = import.meta.env.VITE_GH_TOKEN;
+const GH_OWNER   = "robmward";
+const GH_REPO    = "bracket-bookie-2";
+const GH_FILE    = "src/data/gamedata.json";
+const GH_API     = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+
+const ghRead = async () => {
+  try {
+    const res = await fetch(GH_API, {headers:{"Authorization":`token ${GH_TOKEN}`,"Accept":"application/vnd.github.v3+json"}});
+    if(!res.ok) return null;
+    const json = await res.json();
+    const data = JSON.parse(atob(json.content));
+    return {data, sha: json.sha};
+  } catch(e) { console.warn("GH read failed",e); return null; }
+};
+
+const ghWrite = async (data, sha) => {
+  try {
+    const body = {message:"Update game data",content:btoa(JSON.stringify(data,null,2)),sha};
+    const res = await fetch(GH_API, {method:"PUT",headers:{"Authorization":`token ${GH_TOKEN}`,"Accept":"application/vnd.github.v3+json","Content-Type":"application/json"},body:JSON.stringify(body)});
+    return res.ok;
+  } catch(e) { console.warn("GH write failed",e); return false; }
+};
 
 // ── DEFAULT ODDS (DraftKings) ──────────────────────────────────────────────
 const DEFAULT_ODDS = {
@@ -148,30 +171,63 @@ export default function App() {
   const [pForm,   setPForm]   = useState({name:"",underdog_ml:"",first_10:"",tie:""});
   const [editingPerson, setEditingPerson] = useState(null);
 
-  // ── localStorage ──────────────────────────────────────────────────────
+  // ── load: GitHub (results/skipped) + localStorage (pools) ──────────────
+  const [ghSha, setGhSha] = useState(null);
+  const [syncing, setSyncing] = useState(false);
+
   useEffect(() => {
+    // Load pools from localStorage (private)
     try {
       const raw = localStorage.getItem(STORE_KEY);
       if (raw) {
         const d = JSON.parse(raw);
-        // Odds are always from DEFAULT_ODDS in code — never restored from backup
-        if (d.results) setResults(d.results);
         if (d.pools)   setPools(d.pools);
         if (d.skipped) setSkipped(d.skipped);
       }
-    } catch(e) { console.warn("Load failed",e); }
+    } catch(e) { console.warn("Local load failed",e); }
+
+    // Load results from GitHub (public/shared)
+    ghRead().then(res => {
+      if(res) {
+        if(res.data.results) setResults(res.data.results);
+        if(res.data.skipped) setSkipped(res.data.skipped);
+        setGhSha(res.sha);
+      }
+    });
   }, []);
 
+  // Save pools to localStorage (private)
   useEffect(() => {
-    const t = setTimeout(() => {
-      try {
-        localStorage.setItem(STORE_KEY, JSON.stringify({results,pools,skipped}));
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({pools,skipped}));
+    } catch(e) { console.warn("Local save failed",e); }
+  }, [pools,skipped]);
+
+  // Save results+skipped to GitHub (shared/public)
+  const [pendingSync, setPendingSync] = useState(false);
+  useEffect(() => {
+    setPendingSync(true);
+  }, [results,skipped]);
+
+  useEffect(() => {
+    if(!pendingSync) return;
+    const t = setTimeout(async () => {
+      setSaveStatus("saving");
+      setPendingSync(false);
+      // Get latest sha first
+      const latest = await ghRead();
+      const sha = latest?.sha || ghSha;
+      const ok = await ghWrite({results,skipped}, sha);
+      if(ok) {
+        if(latest) setGhSha(latest.sha);
         setSaveStatus("saved");
-        setTimeout(()=>setSaveStatus("idle"),2000);
-      } catch(e) { setSaveStatus("error"); setTimeout(()=>setSaveStatus("idle"),3000); }
-    }, 400);
+      } else {
+        setSaveStatus("error");
+      }
+      setTimeout(()=>setSaveStatus("idle"),2000);
+    }, 800);
     return () => clearTimeout(t);
-  }, [odds,results,pools,skipped]);
+  }, [pendingSync]);
 
   // ── helpers ────────────────────────────────────────────────────────────
   const tryLogin     = () => { if(pin===ADMIN_PIN){setScreen("admin");setPinErr(false);setPin("");}else setPinErr(true); };
@@ -280,7 +336,7 @@ export default function App() {
   };
 
   const SavePill = () => {
-    const map={saving:["⏳","#f59e0b","Saving…"],saved:["✓","#16a34a","Saved"],error:["⚠️","#dc2626","Error"],idle:["💾","#64748b","Auto-saved"]};
+    const map={saving:["⏳","#f59e0b","Syncing…"],saved:["☁️","#16a34a","Synced"],error:["⚠️","#dc2626","Sync Error"],idle:["☁️","#64748b","Auto-sync"]};
     const [icon,color,label]=map[saveStatus]||map.idle;
     return <span style={{fontSize:10,color,fontWeight:700,letterSpacing:1,display:"flex",alignItems:"center",gap:4}}>{icon} {label}</span>;
   };
