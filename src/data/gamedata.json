@@ -1,4 +1,8 @@
 {
-  "results": {},
+  "results": {
+    "ff1": {
+      "underdog_ml": false
+    }
+  },
   "skipped": {}
 }
