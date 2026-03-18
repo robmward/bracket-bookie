@@ -64,7 +64,7 @@ const ADMIN_PIN  = "1234";
 const STORE_KEY  = "bracket_bookie_v2";
 const GH_TOKEN   = import.meta.env.VITE_GH_TOKEN;
 const GH_OWNER   = "robmward";
-const GH_REPO    = "bracket-bookie-2";
+const GH_REPO    = "bracket-bookie";
 const GH_FILE    = "src/data/gamedata.json";
 const GH_API     = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
 
