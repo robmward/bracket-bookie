@@ -166,7 +166,7 @@ export default function App() {
 
   // ── load: GitHub (results/skipped) + localStorage (pools) ──────────────
   const [ghSha, setGhSha] = useState(null);
-  const [syncing, setSyncing] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     // Load pools from localStorage (private)
@@ -174,8 +174,7 @@ export default function App() {
       const raw = localStorage.getItem(STORE_KEY);
       if (raw) {
         const d = JSON.parse(raw);
-        if (d.pools)   setPools(d.pools);
-        if (d.skipped) setSkipped(d.skipped);
+        if (d.pools) setPools(d.pools);
       }
     } catch(e) { console.warn("Local load failed",e); }
 
@@ -183,36 +182,47 @@ export default function App() {
     ghRead().then(res => {
       if(res) {
         if(res.data.results) setResults(res.data.results);
-        if(res.data.skipped) setSkipped(res.data.skipped);
+        if(res.data.skipped) setSkipped(p=>({...p,...(res.data.skipped||{})}));
         setGhSha(res.sha);
       }
+      setLoaded(true); // only allow saves after initial load
     });
   }, []);
 
   // Save pools to localStorage (private)
   useEffect(() => {
+    if(!loaded) return;
     try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({pools,skipped}));
+      localStorage.setItem(STORE_KEY, JSON.stringify({pools}));
     } catch(e) { console.warn("Local save failed",e); }
-  }, [pools,skipped]);
+  }, [pools, loaded]);
 
-  // Save results+skipped to GitHub (shared/public)
+  // Save results+skipped to GitHub (shared/public) - only after initial load
   const [pendingSync, setPendingSync] = useState(false);
   useEffect(() => {
+    if(!loaded) return;
     setPendingSync(true);
-  }, [results,skipped]);
+  }, [results, skipped, loaded]);
 
   useEffect(() => {
-    if(!pendingSync) return;
+    if(!pendingSync || !loaded) return;
     const t = setTimeout(async () => {
       setSaveStatus("saving");
       setPendingSync(false);
-      // Get latest sha first
+      // Always get latest sha before writing to avoid conflicts
       const latest = await ghRead();
       const sha = latest?.sha || ghSha;
-      const ok = await ghWrite({results,skipped}, sha);
-      if(ok) {
-        if(latest) setGhSha(latest.sha);
+      if(latest?.data) {
+        // merge our results on top of latest
+      }
+      const res = await fetch("/.netlify/functions/gamedata", {
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({data:{results,skipped}, sha})
+      });
+      if(res.ok) {
+        const json = await res.json();
+        if(json.sha) setGhSha(json.sha);
         setSaveStatus("saved");
       } else {
         setSaveStatus("error");
@@ -220,7 +230,7 @@ export default function App() {
       setTimeout(()=>setSaveStatus("idle"),2000);
     }, 800);
     return () => clearTimeout(t);
-  }, [pendingSync]);
+  }, [pendingSync, loaded]);
 
   // ── helpers ────────────────────────────────────────────────────────────
   const tryLogin     = () => { if(pin===ADMIN_PIN){setScreen("admin");setPinErr(false);setPin("");}else setPinErr(true); };
