@@ -7,7 +7,8 @@
     },
     "ff2": {
       "tie": false,
-      "first_10": true
+      "first_10": true,
+      "underdog_ml": true
     }
   },
   "skipped": {}
