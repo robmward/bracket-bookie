@@ -6,7 +6,9 @@
       "tie": false
     },
     "ff2": {
-      "underdog_ml": true
+      "underdog_ml": true,
+      "first_10": true,
+      "tie": false
     }
   },
   "skipped": {}
