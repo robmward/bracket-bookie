@@ -6,7 +6,7 @@
       "tie": false
     },
     "ff2": {
-      "first_10": false
+      "first_10": true
     }
   },
   "skipped": {}
