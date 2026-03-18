@@ -1,14 +1,4 @@
 {
-  "results": {
-    "ff1": {
-      "underdog_ml": false,
-      "first_10": false,
-      "tie": false
-    },
-    "ff2": {
-      "tie": false,
-      "first_10": true
-    }
-  },
+  "results": {},
   "skipped": {}
 }
