@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+\import { useState, useEffect } from "react";
 
 // ── GAME DATA ──────────────────────────────────────────────────────────────
 const FIRST_FOUR = [
