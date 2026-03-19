@@ -11,7 +11,12 @@
       "underdog_ml": true
     },
     "ff3": {
-      "tie": false
+      "tie": false,
+      "first_10": true,
+      "underdog_ml": true
+    },
+    "r5": {
+      "first_10": true
     }
   },
   "skipped": {}
