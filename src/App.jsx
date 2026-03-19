@@ -19,8 +19,8 @@ const ROUND64 = [
   { id:"r6",  date:"Thu Mar 19", time:"4:05 PM",  away:"North Dakota State Bison", home:"Michigan State Spartans",  seed_away:14, seed_home:3,  region:"East",    tv:"TNT"   },
   { id:"r12", date:"Thu Mar 19", time:"4:25 PM",  away:"Hawai'i Rainbow Warriors", home:"Arkansas Razorbacks",      seed_away:13, seed_home:4,  region:"West",    tv:"TBS"   },
   { id:"r29", date:"Thu Mar 19", time:"6:50 PM",  away:"VCU Rams",                 home:"North Carolina Tar Heels", seed_away:11, seed_home:6,  region:"South",   tv:"TNT"   },
-  { id:"r17", date:"Thu Mar 19", time:"7:10 PM",  away:"FF Winner (UMBC/Howard)",  home:"Michigan Wolverines",      seed_away:16, seed_home:1,  region:"Midwest", tv:"CBS"   },
-  { id:"r13", date:"Thu Mar 19", time:"7:25 PM",  away:"FF Winner (NC St/TX)",     home:"BYU Cougars",              seed_away:11, seed_home:6,  region:"West",    tv:"TBS"   },
+  { id:"r17", date:"Thu Mar 19", time:"7:10 PM",  away:"Howard Bison",             home:"Michigan Wolverines",      seed_away:16, seed_home:1,  region:"Midwest", tv:"CBS"   },
+  { id:"r13", date:"Thu Mar 19", time:"7:25 PM",  away:"Texas Longhorns",           home:"BYU Cougars",              seed_away:11, seed_home:6,  region:"West",    tv:"TBS"   },
   { id:"r31", date:"Thu Mar 19", time:"7:35 PM",  away:"Texas A&M Aggies",         home:"Saint Mary's Gaels",       seed_away:10, seed_home:7,  region:"South",   tv:"truTV" },
   { id:"r30", date:"Thu Mar 19", time:"9:25 PM",  away:"Penn Quakers",             home:"Illinois Fighting Illini", seed_away:14, seed_home:3,  region:"South",   tv:"TNT"   },
   { id:"r25", date:"Thu Mar 19", time:"9:25 PM",  away:"FF Winner (PV/Lehigh)",    home:"Florida Gators",           seed_away:16, seed_home:1,  region:"South",   tv:"TNT"   },
@@ -34,9 +34,9 @@ const ROUND64 = [
   { id:"r22", date:"Fri Mar 20", time:"1:50 PM",  away:"Wright State Raiders",     home:"Virginia Cavaliers",       seed_away:14, seed_home:3,  region:"Midwest", tv:"TBS"   },
   { id:"r24", date:"Fri Mar 20", time:"2:50 PM",  away:"Tennessee State Tigers",   home:"Iowa State Cyclones",      seed_away:15, seed_home:2,  region:"Midwest", tv:"CBS"   },
   { id:"r20", date:"Fri Mar 20", time:"3:15 PM",  away:"Hofstra Pride",            home:"Alabama Crimson Tide",     seed_away:13, seed_home:4,  region:"Midwest", tv:"truTV", nobet:true  },
-  { id:"r10", date:"Fri Mar 20", time:"4:10 PM",  away:"Utah State Aggies",        home:"Villanova Wildcats",       seed_away:9,  seed_home:8,  region:"West",    tv:"TNT"   },
+  { id:"r10", date:"Fri Mar 20", time:"4:10 PM",  away:"Utah State Aggies",        home:"Villanova Wildcats",       seed_away:8,  seed_home:9,  region:"West",    tv:"TNT"   },
   { id:"r21", date:"Fri Mar 20", time:"4:25 PM",  away:"FF Winner (MIA OH/SMU)",   home:"Tennessee Volunteers",     seed_away:11, seed_home:6,  region:"Midwest", tv:"TBS"   },
-  { id:"r26", date:"Fri Mar 20", time:"6:50 PM",  away:"Iowa Hawkeyes",            home:"Clemson Tigers",           seed_away:9,  seed_home:8,  region:"South",   tv:"TNT"   },
+  { id:"r26", date:"Fri Mar 20", time:"6:50 PM",  away:"Iowa Hawkeyes",            home:"Clemson Tigers",           seed_away:8,  seed_home:9,  region:"South",   tv:"TNT"   },
   { id:"r3",  date:"Fri Mar 20", time:"7:10 PM",  away:"Northern Iowa Panthers",   home:"St. John's Red Storm",     seed_away:12, seed_home:5,  region:"East",    tv:"CBS",   nobet:true  },
   { id:"r7",  date:"Fri Mar 20", time:"7:25 PM",  away:"UCF Knights",              home:"UCLA Bruins",              seed_away:10, seed_home:7,  region:"East",    tv:"TBS"   },
   { id:"r16", date:"Fri Mar 20", time:"7:35 PM",  away:"Queens NC Royals",         home:"Purdue Boilermakers",      seed_away:15, seed_home:2,  region:"West",    tv:"truTV" },
@@ -89,34 +89,34 @@ const DEFAULT_ODDS = {
   r2:  { dog:"TCU Horned Frogs",          underdog_ml:"+120",  first_10:"+105", tie:"+800" },
   r3:  { dog:"Northern Iowa Panthers",    underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
   r4:  { dog:"Cal Baptist Lancers",       underdog_ml:"+750",  first_10:"+180", tie:"+1400" },
-  r5:  { dog:"South Florida Bulls",       underdog_ml:"+185",  first_10:"+115", tie:"+850" },
+  r5:  { dog:"South Florida Bulls",       underdog_ml:"+164",  first_10:"+115", tie:"+850" },
   r6:  { dog:"North Dakota State Bison",  underdog_ml:"+1000", first_10:"+205", tie:"+1500" },
-  r7:  { dog:"UCF Knights",               underdog_ml:"+205",  first_10:"+120", tie:"+900" },
+  r7:  { dog:"UCF Knights",               underdog_ml:"+200",  first_10:"+120", tie:"+900" },
   r8:  { dog:"Furman Paladins",           underdog_ml:"+1700", first_10:"+285", tie:"+2000" },
   r9:  { dog:"LIU Sharks",               underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
-  r10: { dog:"Utah State Aggies",         underdog_ml:"+114",  first_10:"-130", tie:"+800" },
+  r10: { dog:"Villanova Wildcats",        underdog_ml:"+105",  first_10:"+100", tie:"+800" },
   r11: { dog:"High Point Panthers",       underdog_ml:"+370",  first_10:"+135", tie:"+1000" },
-  r12: { dog:"Hawai'i Rainbow Warriors",  underdog_ml:"+800",  first_10:"+175", tie:"+1400" },
-  r13: { dog:"FF Winner (NC St/TX)",      underdog_ml:"",      first_10:"",     tie:"" },
-  r14: { dog:"Kennesaw State Owls",       underdog_ml:"+1400", first_10:"+235", tie:"+1800" },
+  r12: { dog:"Hawai'i Rainbow Warriors",  underdog_ml:"+850",  first_10:"+175", tie:"+1400" },
+  r13: { dog:"Texas Longhorns",           underdog_ml:"+114",  first_10:"",     tie:"+800" },
+  r14: { dog:"Kennesaw State Owls",       underdog_ml:"+1600", first_10:"+235", tie:"+1800" },
   r15: { dog:"Missouri Tigers",           underdog_ml:"+110",  first_10:"-105", tie:"+800" },
-  r16: { dog:"Queens NC Royals",          underdog_ml:"+2200", first_10:"+290", tie:"" },
-  r17: { dog:"FF Winner (UMBC/Howard)",   underdog_ml:"",      first_10:"",     tie:"" },
-  r18: { dog:"Saint Louis Billikens",     underdog_ml:"+136",  first_10:"+100", tie:"+800" },
+  r16: { dog:"Queens NC Royals",          underdog_ml:"+2200", first_10:"+290", tie:"NO BET" },
+  r17: { dog:"Howard Bison",              underdog_ml:"+3500", first_10:"",     tie:"NO BET" },
+  r18: { dog:"Saint Louis Billikens",     underdog_ml:"+124",  first_10:"+100", tie:"+800" },
   r19: { dog:"Akron Zips",               underdog_ml:"+260",  first_10:"+120", tie:"+900" },
   r20: { dog:"Hofstra Pride",             underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
   r21: { dog:"FF Winner (MIA OH/SMU)",    underdog_ml:"",      first_10:"",     tie:"" },
   r22: { dog:"Wright State Raiders",      underdog_ml:"+1300", first_10:"+245", tie:"+1700" },
-  r23: { dog:"Santa Clara Broncos",       underdog_ml:"+140",  first_10:"+105", tie:"+850" },
-  r24: { dog:"Tennessee State Tigers",    underdog_ml:"+2200", first_10:"+300", tie:"" },
+  r23: { dog:"Santa Clara Broncos",       underdog_ml:"+136",  first_10:"+105", tie:"+850" },
+  r24: { dog:"Tennessee State Tigers",    underdog_ml:"+2200", first_10:"+300", tie:"NO BET" },
   r25: { dog:"FF Winner (PV/Lehigh)",     underdog_ml:"",      first_10:"",     tie:"" },
-  r26: { dog:"Iowa Hawkeyes",             underdog_ml:"+114",  first_10:"-130", tie:"+800" },
-  r27: { dog:"McNeese Cowboys",           underdog_ml:"+455",  first_10:"+150", tie:"+1100" },
+  r26: { dog:"Clemson Tigers",            underdog_ml:"+114",  first_10:"-105", tie:"+800" },
+  r27: { dog:"McNeese Cowboys",           underdog_ml:"+525",  first_10:"+150", tie:"+1100" },
   r28: { dog:"Troy Trojans",              underdog_ml:"+650",  first_10:"+165", tie:"+1200" },
-  r29: { dog:"VCU Rams",                  underdog_ml:"+114",  first_10:"-105", tie:"+800" },
-  r30: { dog:"Penn Quakers",              underdog_ml:"+2000", first_10:"+310", tie:"" },
+  r29: { dog:"VCU Rams",                  underdog_ml:"+124",  first_10:"-105", tie:"+800" },
+  r30: { dog:"Penn Quakers",              underdog_ml:"+2200", first_10:"+310", tie:"NO BET" },
   r31: { dog:"Texas A&M Aggies",          underdog_ml:"+136",  first_10:"+100", tie:"+800" },
-  r32: { dog:"Idaho Vandals",             underdog_ml:"+2200", first_10:"+350", tie:"" },
+  r32: { dog:"Idaho Vandals",             underdog_ml:"+2200", first_10:"+350", tie:"NO BET" },
 };
 
 const fmt = (v) => { const n=parseFloat(v); if(!v||isNaN(n)) return null; return n>0?`+${n}`:`${n}`; };
@@ -143,7 +143,7 @@ const RoundBtn = ({active,onClick,skipped,children}) => (
 
 export default function App() {
   const [screen,       setScreen]       = useState("public");
-  const [pubRound,     setPubRound]     = useState("firstfour");
+  const [pubRound,     setPubRound]     = useState("round64");
   const [adminTab,     setAdminTab]     = useState("odds");
   const [adminRound,   setAdminRound]   = useState("firstfour");
   const [pin,          setPin]          = useState("");
@@ -158,6 +158,8 @@ export default function App() {
   const [results, setResults] = useState({});
   // pools: { firstfour: { "Alice": {underdog_ml:20, first_10:20, tie:10}, ... }, round64: {...}, ... }
   const [pools,   setPools]   = useState({});
+  // paid: { firstfour: { "Alice": true }, round64: { "Bob": true } }
+  const [paid,    setPaid]    = useState({});
   // skipped rounds
   const [skipped, setSkipped] = useState({});
 
@@ -175,6 +177,7 @@ export default function App() {
       if (raw) {
         const d = JSON.parse(raw);
         if (d.pools) setPools(d.pools);
+        if (d.paid)  setPaid(d.paid);
       }
     } catch(e) { console.warn("Local load failed",e); }
 
@@ -193,7 +196,7 @@ export default function App() {
   useEffect(() => {
     if(!loaded) return;
     try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({pools}));
+      localStorage.setItem(STORE_KEY, JSON.stringify({pools,paid}));
     } catch(e) { console.warn("Local save failed",e); }
   }, [pools, loaded]);
 
@@ -258,6 +261,16 @@ export default function App() {
     delete rp[name];
     setRoundPool(adminRound,rp);
   };
+  const togglePaid = (name) => {
+    setPaid(p=>({
+      ...p,
+      [adminRound]:{
+        ...(p[adminRound]||{}),
+        [name]:!(p[adminRound]||{})[name]
+      }
+    }));
+  };
+
   const startEdit = (name) => {
     const d=roundPool(adminRound)[name];
     setPForm({name,underdog_ml:d.underdog_ml||"",first_10:d.first_10||"",tie:d.tie||""});
@@ -273,7 +286,12 @@ export default function App() {
     const bettable = round.games.filter(g=>!g.nobet);
     const numGames = bettable.length;
     const poolTotals = BET_KEYS.reduce((a,k)=>{a[k]=people.reduce((s,[,d])=>s+(d[k]||0),0);return a;},{});
-    const perGame    = BET_KEYS.reduce((a,k)=>{a[k]=poolTotals[k]>0&&numGames>0?poolTotals[k]/numGames:0;return a;},{});
+    // Per-key game count excludes games where that bet type is NO BET
+    const numPerKey  = BET_KEYS.reduce((a,k)=>{
+      a[k]=bettable.filter(g=>{const o=odds[g.id]?.[k]; return o && o!=="NO BET";}).length;
+      return a;
+    },{});
+    const perGame    = BET_KEYS.reduce((a,k)=>{a[k]=poolTotals[k]>0&&numPerKey[k]>0?poolTotals[k]/numPerKey[k]:0;return a;},{});
     const hitCounts  = BET_KEYS.reduce((a,k)=>{a[k]=bettable.filter(g=>results[g.id]?.[k]===true).length;return a;},{});
     const totalIn    = BET_KEYS.reduce((s,k)=>s+poolTotals[k],0);
 
@@ -578,7 +596,7 @@ export default function App() {
                         return (
                           <div key={k} style={{flex:"1 1 150px",background:BET_LIGHT[k],border:`2px solid ${BET_COLOR[k]}`,borderRadius:10,padding:"10px 14px"}}>
                             <div style={{fontSize:10,color:BET_COLOR[k],fontWeight:600,marginBottom:3}}>{BET_EMOJI[k]} {BET_LABELS[k]}</div>
-                            <div style={{fontSize:11,color:"#475569",marginBottom:4}}><b>${poolTotals[k].toFixed(0)}</b> ÷ {numGames} games</div>
+                            <div style={{fontSize:11,color:"#475569",marginBottom:4}}><b>${poolTotals[k].toFixed(0)}</b> ÷ {numPerKey[k]} games</div>
                             <div style={{fontSize:24,fontWeight:900,color:BET_COLOR[k]}}>${per.toFixed(2)}<span style={{fontSize:11,color:"#64748b"}}>/game</span></div>
                           </div>
                         );
@@ -620,7 +638,7 @@ export default function App() {
                       <div key={k} style={{flex:"1 1 120px",background:BET_LIGHT[k],border:`2px solid ${BET_COLOR[k]}`,borderRadius:10,padding:"12px 14px"}}>
                         <div style={{fontSize:10,color:BET_COLOR[k],fontWeight:600,marginBottom:3}}>{BET_EMOJI[k]} {BET_LABELS[k]}</div>
                         <div style={{fontSize:30,fontWeight:900,color:BET_COLOR[k]}}>${poolTotals[k].toFixed(0)}</div>
-                        <div style={{fontSize:10,color:"#64748b",marginTop:3}}>÷{numGames} = <b>${perGame[k].toFixed(2)}/game</b></div>
+                        <div style={{fontSize:10,color:"#64748b",marginTop:3}}>÷{numPerKey[k]} = <b>${perGame[k].toFixed(2)}/game</b></div>
                       </div>
                     ))}
                     <div style={{flex:"1 1 120px",background:"#f0fdf4",border:"2px solid #16a34a",borderRadius:10,padding:"12px 14px"}}>
@@ -725,14 +743,22 @@ export default function App() {
                         const twin=BET_KEYS.reduce((s,k)=>s+(po[k]?.winnings||0),0);
                         const net=twin-tin;
                         return (
-                          <div key={name} style={{borderTop:"1px solid #f1f5f9",padding:"14px 18px",background:i%2===0?"#fff":"#fafafa"}}>
+                          {(()=>{const isPaid=(paid[adminRound]||{})[name]; return (
+                      <div key={name} style={{borderTop:"1px solid #f1f5f9",padding:"14px 18px",background:isPaid?"#f0fdf4":i%2===0?"#fff":"#fafafa",opacity:isPaid?0.7:1}}>
                             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8,marginBottom:10}}>
-                              <div style={{fontWeight:800,fontSize:16,color:"#0f172a"}}>{name}</div>
-                              <div style={{display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}}>
+                              <div style={{display:"flex",alignItems:"center",gap:10}}>
+                                <div style={{fontWeight:800,fontSize:16,color:isPaid?"#94a3b8":"#0f172a",textDecoration:isPaid?"line-through":"none"}}>{name}</div>
+                                {isPaid&&<span style={{fontSize:11,color:"#16a34a",fontWeight:700}}>✅ PAID</span>}
+                              </div>
+                              <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
                                 <span style={{fontSize:13,color:"#64748b"}}>Sent in: <b style={{color:"#0f172a"}}>${tin.toFixed(2)}</b></span>
                                 {twin>0
                                   ?<span style={{background:"#f0fdf4",color:"#15803d",border:"2px solid #16a34a",borderRadius:8,padding:"4px 12px",fontWeight:800,fontSize:14}}>💸 Pay: ${twin.toFixed(2)} <span style={{fontSize:11,fontWeight:600}}>({net>=0?"+":""}${net.toFixed(2)} net)</span></span>
                                   :<span style={{background:"#f8fafc",color:"#94a3b8",border:"1px solid #e2e8f0",borderRadius:8,padding:"4px 12px",fontSize:12}}>⏳ Pending</span>}
+                                <button onClick={()=>togglePaid(name)}
+                                  style={{...BTN_SM,background:isPaid?"#f1f5f9":"#1e3a5f",color:isPaid?"#64748b":"#fff",border:"none",padding:"6px 14px"}}>
+                                  {isPaid?"↩ Unpay":"💰 Mark Paid"}
+                                </button>
                               </div>
                             </div>
                             <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
@@ -751,6 +777,7 @@ export default function App() {
                               })}
                             </div>
                           </div>
+                      );})()}
                         );
                       })}
                     </div>
