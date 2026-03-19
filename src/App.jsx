@@ -200,47 +200,29 @@ export default function App() {
     } catch(e) { console.warn("Local save failed",e); }
   }, [pools, loaded]);
 
-  // Save results+skipped to GitHub - only when admin makes a change, heavily debounced
-  const isSaving = useState(false);
-  const [pendingSync, setPendingSync] = useState(false);
-  const firstLoad = useState(true);
-
-  useEffect(() => {
-    if(!loaded) return;
-    if(firstLoad[0]) { firstLoad[0]=false; return; } // skip first trigger after load
-    setPendingSync(true);
-  }, [results, skipped]);
-
-  useEffect(() => {
-    if(!pendingSync || !loaded) return;
-    const t = setTimeout(async () => {
-      if(isSaving[0]) return;
-      isSaving[0] = true;
-      setSaveStatus("saving");
-      setPendingSync(false);
-      try {
-        const latest = await ghRead();
-        const sha = latest?.sha || ghSha;
-        const res = await fetch("/.netlify/functions/gamedata", {
-          method:"PUT",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({data:{results,skipped}, sha})
-        });
-        if(res.ok) {
-          const json = await res.json();
-          if(json.sha) setGhSha(json.sha);
-          setSaveStatus("saved");
-        } else {
-          setSaveStatus("error");
-        }
-      } catch(e) {
+  // Manual GitHub sync - only fires when admin clicks Save button
+  const syncToGitHub = async () => {
+    setSaveStatus("saving");
+    try {
+      const latest = await ghRead();
+      const sha = latest?.sha || ghSha;
+      const res = await fetch("/.netlify/functions/gamedata", {
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({data:{results,skipped}, sha})
+      });
+      if(res.ok) {
+        const json = await res.json();
+        if(json.sha) setGhSha(json.sha);
+        setSaveStatus("saved");
+      } else {
         setSaveStatus("error");
       }
-      isSaving[0] = false;
-      setTimeout(()=>setSaveStatus("idle"),2000);
-    }, 3000); // 3 second debounce
-    return () => clearTimeout(t);
-  }, [pendingSync, loaded]);
+    } catch(e) {
+      setSaveStatus("error");
+    }
+    setTimeout(()=>setSaveStatus("idle"),3000);
+  };
 
   // ── helpers ────────────────────────────────────────────────────────────
   const tryLogin     = () => { if(pin===ADMIN_PIN){setScreen("admin");setPinErr(false);setPin("");}else setPinErr(true); };
@@ -558,10 +540,12 @@ export default function App() {
 
       <div style={{background:"#fffbeb",borderBottom:"2px solid #f59e0b",padding:"10px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
         <div style={{fontSize:12,color:"#92400e",fontWeight:600}}>
-          💾 Auto-saves in your browser. <b>Download a backup</b> before closing — just in case.
+          📡 Mark results then hit <b>Sync to Site</b> to push to all devices.
         </div>
-        <div style={{display:"flex",gap:8}}>
-          <button onClick={exportJSON} style={{...BTN_SM,background:"#1e3a5f",color:"#fff",border:"none"}}>⬇️ JSON Backup</button>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          <SavePill/>
+          <button onClick={syncToGitHub} style={{...BTN_SM,background:"#f59e0b",color:"#1e3a5f",border:"none",fontWeight:900}}>📡 Sync to Site</button>
+          <button onClick={exportJSON} style={{...BTN_SM,background:"#1e3a5f",color:"#fff",border:"none"}}>⬇️ Backup</button>
           <button onClick={exportCSV}  style={{...BTN_SM,background:"#15803d",color:"#fff",border:"none"}}>⬇️ CSV</button>
         </div>
       </div>
