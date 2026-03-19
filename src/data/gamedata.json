@@ -20,8 +20,11 @@
     },
     "r28": {
       "first_10": null,
-      "underdog_ml": true,
+      "underdog_ml": null,
       "tie": null
+    },
+    "ff4": {
+      "first_10": true
     }
   },
   "skipped": {}
