@@ -27,6 +27,9 @@
       "first_10": true,
       "underdog_ml": true,
       "tie": false
+    },
+    "r2": {
+      "first_10": true
     }
   },
   "skipped": {}
