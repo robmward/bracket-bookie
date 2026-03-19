@@ -743,12 +743,11 @@ export default function App() {
                         const twin=BET_KEYS.reduce((s,k)=>s+(po[k]?.winnings||0),0);
                         const net=twin-tin;
                         return (
-                          {(()=>{const isPaid=(paid[adminRound]||{})[name]; return (
-                      <div key={name} style={{borderTop:"1px solid #f1f5f9",padding:"14px 18px",background:isPaid?"#f0fdf4":i%2===0?"#fff":"#fafafa",opacity:isPaid?0.7:1}}>
+                          <div key={name} style={{borderTop:"1px solid #f1f5f9",padding:"14px 18px",background:(paid[adminRound]||{})[name]?"#f0fdf4":i%2===0?"#fff":"#fafafa",opacity:(paid[adminRound]||{})[name]?0.7:1}}>
                             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8,marginBottom:10}}>
                               <div style={{display:"flex",alignItems:"center",gap:10}}>
-                                <div style={{fontWeight:800,fontSize:16,color:isPaid?"#94a3b8":"#0f172a",textDecoration:isPaid?"line-through":"none"}}>{name}</div>
-                                {isPaid&&<span style={{fontSize:11,color:"#16a34a",fontWeight:700}}>✅ PAID</span>}
+                                <div style={{fontWeight:800,fontSize:16,color:(paid[adminRound]||{})[name]?"#94a3b8":"#0f172a",textDecoration:(paid[adminRound]||{})[name]?"line-through":"none"}}>{name}</div>
+                                {(paid[adminRound]||{})[name]&&<span style={{fontSize:11,color:"#16a34a",fontWeight:700}}>✅ PAID</span>}
                               </div>
                               <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
                                 <span style={{fontSize:13,color:"#64748b"}}>Sent in: <b style={{color:"#0f172a"}}>${tin.toFixed(2)}</b></span>
@@ -756,8 +755,8 @@ export default function App() {
                                   ?<span style={{background:"#f0fdf4",color:"#15803d",border:"2px solid #16a34a",borderRadius:8,padding:"4px 12px",fontWeight:800,fontSize:14}}>💸 Pay: ${twin.toFixed(2)} <span style={{fontSize:11,fontWeight:600}}>({net>=0?"+":""}${net.toFixed(2)} net)</span></span>
                                   :<span style={{background:"#f8fafc",color:"#94a3b8",border:"1px solid #e2e8f0",borderRadius:8,padding:"4px 12px",fontSize:12}}>⏳ Pending</span>}
                                 <button onClick={()=>togglePaid(name)}
-                                  style={{...BTN_SM,background:isPaid?"#f1f5f9":"#1e3a5f",color:isPaid?"#64748b":"#fff",border:"none",padding:"6px 14px"}}>
-                                  {isPaid?"↩ Unpay":"💰 Mark Paid"}
+                                  style={{...BTN_SM,background:(paid[adminRound]||{})[name]?"#f1f5f9":"#1e3a5f",color:(paid[adminRound]||{})[name]?"#64748b":"#fff",border:"none",padding:"6px 14px"}}>
+                                  {(paid[adminRound]||{})[name]?"↩ Unpay":"💰 Mark Paid"}
                                 </button>
                               </div>
                             </div>
@@ -777,7 +776,6 @@ export default function App() {
                               })}
                             </div>
                           </div>
-                      );})()}
                         );
                       })}
                     </div>
