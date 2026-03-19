@@ -16,7 +16,7 @@
       "underdog_ml": true
     },
     "r5": {
-      "first_10": null
+      "first_10": false
     },
     "r28": {
       "first_10": true,
