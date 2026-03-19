@@ -24,7 +24,8 @@
       "tie": null
     },
     "ff4": {
-      "first_10": true
+      "first_10": true,
+      "underdog_ml": true
     }
   },
   "skipped": {}
