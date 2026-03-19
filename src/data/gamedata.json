@@ -9,6 +9,9 @@
       "tie": false,
       "first_10": true,
       "underdog_ml": true
+    },
+    "ff3": {
+      "tie": false
     }
   },
   "skipped": {}
