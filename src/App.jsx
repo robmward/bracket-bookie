@@ -181,14 +181,14 @@ export default function App() {
       }
     } catch(e) { console.warn("Local load failed",e); }
 
-    // Load results from GitHub (public/shared)
+    // Load results from GitHub (public/shared) - one time on mount only
     ghRead().then(res => {
       if(res) {
-        if(res.data.results) setResults(res.data.results);
-        if(res.data.skipped) setSkipped(p=>({...p,...(res.data.skipped||{})}));
+        if(res.data?.results) setResults(res.data.results);
+        if(res.data?.skipped) setSkipped(p=>({...p,...(res.data.skipped||{})}));
         setGhSha(res.sha);
       }
-      setLoaded(true); // only allow saves after initial load
+      setTimeout(()=>setLoaded(true), 100); // slight delay to prevent immediate save
     });
   }, []);
 
@@ -200,38 +200,45 @@ export default function App() {
     } catch(e) { console.warn("Local save failed",e); }
   }, [pools, loaded]);
 
-  // Save results+skipped to GitHub (shared/public) - only after initial load
+  // Save results+skipped to GitHub - only when admin makes a change, heavily debounced
+  const isSaving = useState(false);
   const [pendingSync, setPendingSync] = useState(false);
+  const firstLoad = useState(true);
+
   useEffect(() => {
     if(!loaded) return;
+    if(firstLoad[0]) { firstLoad[0]=false; return; } // skip first trigger after load
     setPendingSync(true);
-  }, [results, skipped, loaded]);
+  }, [results, skipped]);
 
   useEffect(() => {
     if(!pendingSync || !loaded) return;
     const t = setTimeout(async () => {
+      if(isSaving[0]) return;
+      isSaving[0] = true;
       setSaveStatus("saving");
       setPendingSync(false);
-      // Always get latest sha before writing to avoid conflicts
-      const latest = await ghRead();
-      const sha = latest?.sha || ghSha;
-      if(latest?.data) {
-        // merge our results on top of latest
-      }
-      const res = await fetch("/.netlify/functions/gamedata", {
-        method:"PUT",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({data:{results,skipped}, sha})
-      });
-      if(res.ok) {
-        const json = await res.json();
-        if(json.sha) setGhSha(json.sha);
-        setSaveStatus("saved");
-      } else {
+      try {
+        const latest = await ghRead();
+        const sha = latest?.sha || ghSha;
+        const res = await fetch("/.netlify/functions/gamedata", {
+          method:"PUT",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({data:{results,skipped}, sha})
+        });
+        if(res.ok) {
+          const json = await res.json();
+          if(json.sha) setGhSha(json.sha);
+          setSaveStatus("saved");
+        } else {
+          setSaveStatus("error");
+        }
+      } catch(e) {
         setSaveStatus("error");
       }
+      isSaving[0] = false;
       setTimeout(()=>setSaveStatus("idle"),2000);
-    }, 800);
+    }, 3000); // 3 second debounce
     return () => clearTimeout(t);
   }, [pendingSync, loaded]);
 
