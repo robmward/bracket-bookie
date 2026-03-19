@@ -21,7 +21,7 @@
     "r28": {
       "first_10": true,
       "underdog_ml": true,
-      "tie": false
+      "tie": null
     }
   },
   "skipped": {}
