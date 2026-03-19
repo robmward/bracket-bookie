@@ -19,7 +19,9 @@
       "first_10": null
     },
     "r28": {
-      "first_10": true
+      "first_10": true,
+      "underdog_ml": true,
+      "tie": false
     }
   },
   "skipped": {}
