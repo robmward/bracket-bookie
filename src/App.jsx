@@ -23,7 +23,7 @@ const ROUND64 = [
   { id:"r13", date:"Thu Mar 19", time:"7:25 PM",  away:"Texas Longhorns",           home:"BYU Cougars",              seed_away:11, seed_home:6,  region:"West",    tv:"TBS"   },
   { id:"r31", date:"Thu Mar 19", time:"7:35 PM",  away:"Texas A&M Aggies",         home:"Saint Mary's Gaels",       seed_away:10, seed_home:7,  region:"South",   tv:"truTV" },
   { id:"r30", date:"Thu Mar 19", time:"9:25 PM",  away:"Penn Quakers",             home:"Illinois Fighting Illini", seed_away:14, seed_home:3,  region:"South",   tv:"TNT"   },
-  { id:"r25", date:"Thu Mar 19", time:"9:25 PM",  away:"FF Winner (PV/Lehigh)",    home:"Florida Gators",           seed_away:16, seed_home:1,  region:"South",   tv:"TNT"   },
+  { id:"r25", date:"Fri Mar 20", time:"9:25 PM",  away:"Prairie View A&M Panthers", home:"Florida Gators",           seed_away:16, seed_home:1,  region:"South",   tv:"TNT"   },
   { id:"r18", date:"Thu Mar 19", time:"9:45 PM",  away:"Saint Louis Billikens",    home:"Georgia Bulldogs",         seed_away:9,  seed_home:8,  region:"Midwest", tv:"CBS"   },
   { id:"r14", date:"Thu Mar 19", time:"10:00 PM", away:"Kennesaw State Owls",      home:"Gonzaga Bulldogs",         seed_away:14, seed_home:3,  region:"West",    tv:"TBS"   },
   { id:"r32", date:"Thu Mar 19", time:"10:10 PM", away:"Idaho Vandals",            home:"Houston Cougars",          seed_away:15, seed_home:2,  region:"South",   tv:"truTV" },
@@ -35,7 +35,7 @@ const ROUND64 = [
   { id:"r24", date:"Fri Mar 20", time:"2:50 PM",  away:"Tennessee State Tigers",   home:"Iowa State Cyclones",      seed_away:15, seed_home:2,  region:"Midwest", tv:"CBS"   },
   { id:"r20", date:"Fri Mar 20", time:"3:15 PM",  away:"Hofstra Pride",            home:"Alabama Crimson Tide",     seed_away:13, seed_home:4,  region:"Midwest", tv:"truTV", nobet:true  },
   { id:"r10", date:"Fri Mar 20", time:"4:10 PM",  away:"Utah State Aggies",        home:"Villanova Wildcats",       seed_away:8,  seed_home:9,  region:"West",    tv:"TNT"   },
-  { id:"r21", date:"Fri Mar 20", time:"4:25 PM",  away:"FF Winner (MIA OH/SMU)",   home:"Tennessee Volunteers",     seed_away:11, seed_home:6,  region:"Midwest", tv:"TBS"   },
+  { id:"r21", date:"Fri Mar 20", time:"4:25 PM",  away:"Miami (OH) RedHawks",       home:"Tennessee Volunteers",     seed_away:11, seed_home:6,  region:"Midwest", tv:"TBS"   },
   { id:"r26", date:"Fri Mar 20", time:"6:50 PM",  away:"Iowa Hawkeyes",            home:"Clemson Tigers",           seed_away:8,  seed_home:9,  region:"South",   tv:"TNT"   },
   { id:"r3",  date:"Fri Mar 20", time:"7:10 PM",  away:"Northern Iowa Panthers",   home:"St. John's Red Storm",     seed_away:12, seed_home:5,  region:"East",    tv:"CBS",   nobet:true  },
   { id:"r7",  date:"Fri Mar 20", time:"7:25 PM",  away:"UCF Knights",              home:"UCLA Bruins",              seed_away:10, seed_home:7,  region:"East",    tv:"TBS"   },
@@ -105,11 +105,11 @@ const DEFAULT_ODDS = {
   r18: { dog:"Saint Louis Billikens",     underdog_ml:"+124",  first_10:"+100", tie:"+800" },
   r19: { dog:"Akron Zips",               underdog_ml:"+260",  first_10:"+120", tie:"+900" },
   r20: { dog:"Hofstra Pride",             underdog_ml:"NO BET", first_10:"NO BET", tie:"NO BET" },
-  r21: { dog:"FF Winner (MIA OH/SMU)",    underdog_ml:"",      first_10:"",     tie:"" },
+  r21: { dog:"Miami (OH) RedHawks",        underdog_ml:"+410",  first_10:"NO BET", tie:"NO BET" },
   r22: { dog:"Wright State Raiders",      underdog_ml:"+1300", first_10:"+245", tie:"+1700" },
   r23: { dog:"Santa Clara Broncos",       underdog_ml:"+136",  first_10:"+105", tie:"+850" },
   r24: { dog:"Tennessee State Tigers",    underdog_ml:"+2200", first_10:"+300", tie:"NO BET" },
-  r25: { dog:"FF Winner (PV/Lehigh)",     underdog_ml:"",      first_10:"",     tie:"" },
+  r25: { dog:"Prairie View A&M Panthers", underdog_ml:"+5000", first_10:"NO BET", tie:"NO BET" },
   r26: { dog:"Clemson Tigers",            underdog_ml:"+114",  first_10:"-105", tie:"+800" },
   r27: { dog:"McNeese Cowboys",           underdog_ml:"+525",  first_10:"+150", tie:"+1100" },
   r28: { dog:"Troy Trojans",              underdog_ml:"+650",  first_10:"+165", tie:"+1200" },
@@ -279,44 +279,48 @@ export default function App() {
 
   // ── math (per round) ──────────────────────────────────────────────────
   const getRoundMath = (rid) => {
-    const round = ROUNDS.find(r=>r.id===rid);
-    if(!round) return {};
-    const rp = roundPool(rid);
-    const people = Object.entries(rp);
-    const bettable = round.games.filter(g=>!g.nobet);
-    const numGames = bettable.length;
-    const poolTotals = BET_KEYS.reduce((a,k)=>{a[k]=people.reduce((s,[,d])=>s+(d[k]||0),0);return a;},{});
-    // Per-key game count excludes games where that bet type is NO BET
-    const numPerKey  = BET_KEYS.reduce((a,k)=>{
-      a[k]=bettable.filter(g=>{const o=odds[g.id]?.[k]; return o && o!=="NO BET";}).length;
-      return a;
-    },{});
-    const perGame    = BET_KEYS.reduce((a,k)=>{a[k]=poolTotals[k]>0&&numPerKey[k]>0?poolTotals[k]/numPerKey[k]:0;return a;},{});
-    const hitCounts  = BET_KEYS.reduce((a,k)=>{a[k]=bettable.filter(g=>results[g.id]?.[k]===true).length;return a;},{});
-    const totalIn    = BET_KEYS.reduce((s,k)=>s+poolTotals[k],0);
-
-    const personPayouts = (name) => {
-      const d=rp[name]; if(!d) return {};
-      return BET_KEYS.reduce((acc,k)=>{
-        const share=poolTotals[k]>0?(d[k]||0)/poolTotals[k]:0;
-        let win=0;
-        bettable.forEach(g=>{
-          if(results[g.id]?.[k]===true){
-            const p=calcPayout(perGame[k],odds[g.id]?.[k]);
-            if(p) win+=p*share;
-          }
-        });
-        acc[k]={put_in:d[k]||0,share:(share*100).toFixed(1),winnings:parseFloat(win.toFixed(2))};
-        return acc;
+    try {
+      const round = ROUNDS.find(r=>r.id===rid);
+      if(!round) return {people:[],bettable:[],numGames:0,poolTotals:{underdog_ml:0,first_10:0,tie:0},perGame:{underdog_ml:0,first_10:0,tie:0},hitCounts:{underdog_ml:0,first_10:0,tie:0},totalIn:0,totalPayouts:0,personPayouts:()=>({})};
+      const rp = roundPool(rid)||{};
+      const people = Object.entries(rp);
+      const bettable = (round.games||[]).filter(g=>!g.nobet);
+      const numGames = bettable.length;
+      const poolTotals = BET_KEYS.reduce((a,k)=>{a[k]=people.reduce((s,[,d])=>s+(d[k]||0),0);return a;},{});
+      const numBettable = BET_KEYS.reduce((a,k)=>{
+        a[k]=bettable.filter(g=>{const o=(odds[g.id]||{})[k]; return o && o!=="NO BET";}).length||numGames;
+        return a;
       },{});
-    };
+      const perGame = BET_KEYS.reduce((a,k)=>{a[k]=poolTotals[k]>0&&numBettable[k]>0?poolTotals[k]/numBettable[k]:0;return a;},{});
+      const hitCounts = BET_KEYS.reduce((a,k)=>{a[k]=bettable.filter(g=>results[g.id]?.[k]===true).length;return a;},{});
+      const totalIn = BET_KEYS.reduce((s,k)=>s+poolTotals[k],0);
 
-    const totalPayouts = people.reduce((s,[name])=>{
-      const po=personPayouts(name);
-      return s+BET_KEYS.reduce((ss,k)=>ss+(po[k]?.winnings||0),0);
-    },0);
+      const personPayouts = (name) => {
+        const d=rp[name]; if(!d) return {};
+        return BET_KEYS.reduce((acc,k)=>{
+          const share=poolTotals[k]>0?(d[k]||0)/poolTotals[k]:0;
+          let win=0;
+          bettable.forEach(g=>{
+            if(results[g.id]?.[k]===true){
+              const p=calcPayout(perGame[k],(odds[g.id]||{})[k]);
+              if(p) win+=p*share;
+            }
+          });
+          acc[k]={put_in:d[k]||0,share:(share*100).toFixed(1),winnings:parseFloat(win.toFixed(2))};
+          return acc;
+        },{});
+      };
 
-    return {people,bettable,numGames,poolTotals,perGame,hitCounts,totalIn,totalPayouts,personPayouts};
+      const totalPayouts = people.reduce((s,[n])=>{
+        const po=personPayouts(n);
+        return s+BET_KEYS.reduce((ss,k)=>ss+(po[k]?.winnings||0),0);
+      },0);
+
+      return {people,bettable,numGames,poolTotals,perGame,hitCounts,totalIn,totalPayouts,personPayouts};
+    } catch(e) {
+      console.error("getRoundMath error",e);
+      return {people:[],bettable:[],numGames:0,poolTotals:{underdog_ml:0,first_10:0,tie:0},perGame:{underdog_ml:0,first_10:0,tie:0},hitCounts:{underdog_ml:0,first_10:0,tie:0},totalIn:0,totalPayouts:0,personPayouts:()=>({})};
+    }
   };
 
   // ── exports ────────────────────────────────────────────────────────────
