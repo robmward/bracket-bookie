@@ -50,7 +50,7 @@ const ROUND64 = [
 const ROUNDS = [
   { id:"firstfour", label:"🎟 First Four",   short:"FF",   games:FIRST_FOUR, dates:"Mar 17-18", active:true  },
   { id:"round64",   label:"🏀 Round of 64",  short:"R64",  games:ROUND64,    dates:"Mar 19-20", active:true  },
-  { id:"round32",   label:"🔥 Round of 32",  short:"R32",  games:[],         dates:"Mar 21-22", active:false },
+  { id:"round32",   label:"🔥 Round of 32",  short:"R32",  games:ROUND32,    dates:"Mar 21-22", active:true  },
   { id:"sweet16",   label:"🌟 Sweet 16",     short:"S16",  games:[],         dates:"Mar 26-27", active:false },
 ];
 
@@ -117,6 +117,15 @@ const DEFAULT_ODDS = {
   r30: { dog:"Penn Quakers",              underdog_ml:"+2200", first_10:"+310", tie:"NO BET" },
   r31: { dog:"Texas A&M Aggies",          underdog_ml:"+136",  first_10:"+100", tie:"+800" },
   r32: { dog:"Idaho Vandals",             underdog_ml:"+2200", first_10:"+350", tie:"NO BET" },
+  // ── ROUND OF 32 ──
+  s1: { dog:"Saint Louis Billikens",    underdog_ml:"+600",  first_10:"+160", tie:"" },
+  s2: { dog:"Louisville Cardinals",     underdog_ml:"+154",  first_10:"+110", tie:"" },
+  s3: { dog:"TCU Horned Frogs",         underdog_ml:"+500",  first_10:"+155", tie:"" },
+  s4: { dog:"Texas A&M Aggies",         underdog_ml:"+380",  first_10:"+150", tie:"" },
+  s5: { dog:"Texas Longhorns",          underdog_ml:"+190",  first_10:"+120", tie:"" },
+  s6: { dog:"VCU Rams",                 underdog_ml:"+410",  first_10:"+150", tie:"" },
+  s7: { dog:"Nebraska Cornhuskers",     underdog_ml:"+124",  first_10:"-105", tie:"" },
+  s8: { dog:"High Point Panthers",      underdog_ml:"+500",  first_10:"+150", tie:"" },
 };
 
 const fmt = (v) => { const n=parseFloat(v); if(!v||isNaN(n)) return null; return n>0?`+${n}`:`${n}`; };
