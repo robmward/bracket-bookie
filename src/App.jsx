@@ -45,6 +45,19 @@ const ROUND64 = [
   { id:"r15", date:"Fri Mar 20", time:"10:10 PM", away:"Missouri Tigers",          home:"Miami (FL) Hurricanes",    seed_away:10, seed_home:7,  region:"West",    tv:"truTV" },
 ];
 
+const ROUND32 = [
+  // ── SATURDAY MAR 21 ──
+  { id:"s1",  date:"Sat Mar 21", time:"12:10 PM", away:"Saint Louis Billikens",    home:"Michigan Wolverines",      seed_away:9,  seed_home:1,  region:"Midwest", tv:"CBS"   },
+  { id:"s2",  date:"Sat Mar 21", time:"2:45 PM",  away:"Louisville Cardinals",     home:"Michigan State Spartans",  seed_away:6,  seed_home:3,  region:"East",    tv:"CBS"   },
+  { id:"s3",  date:"Sat Mar 21", time:"5:15 PM",  away:"TCU Horned Frogs",         home:"Duke Blue Devils",         seed_away:9,  seed_home:1,  region:"East",    tv:"CBS"   },
+  { id:"s4",  date:"Sat Mar 21", time:"6:10 PM",  away:"Texas A&M Aggies",         home:"Houston Cougars",          seed_away:10, seed_home:2,  region:"South",   tv:"TBS"   },
+  { id:"s5",  date:"Sat Mar 21", time:"7:10 PM",  away:"Texas Longhorns",          home:"Gonzaga Bulldogs",         seed_away:11, seed_home:3,  region:"West",    tv:"TBS"   },
+  { id:"s6",  date:"Sat Mar 21", time:"7:50 PM",  away:"VCU Rams",                 home:"Illinois Fighting Illini", seed_away:11, seed_home:3,  region:"South",   tv:"TNT"   },
+  { id:"s7",  date:"Sat Mar 21", time:"8:45 PM",  away:"Nebraska Cornhuskers",     home:"Vanderbilt Commodores",    seed_away:4,  seed_home:5,  region:"South",   tv:"TNT"   },
+  { id:"s8",  date:"Sat Mar 21", time:"9:45 PM",  away:"High Point Panthers",      home:"Arkansas Razorbacks",      seed_away:12, seed_home:4,  region:"West",    tv:"TBS"   },
+  // ── SUNDAY MAR 22 — TBD ──
+];
+
 // ── ROUNDS CONFIG ──────────────────────────────────────────────────────────
 // Add new rounds here as tournament progresses. Set active:false to skip a round.
 const ROUNDS = [
