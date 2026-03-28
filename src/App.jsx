@@ -951,10 +951,4 @@ const BTN_OUTLINE= {display:"block",width:"100%",padding:"10px 0",borderRadius:8
 const BTN_SM     = {padding:"6px 14px",borderRadius:7,fontFamily:"'DM Mono','Courier New',monospace",fontSize:11,fontWeight:700,cursor:"pointer"};
 const TOG        = {padding:"4px 10px",borderRadius:6,border:"2px solid",fontFamily:"'DM Mono','Courier New',monospace",fontSize:10,fontWeight:700,cursor:"pointer",letterSpacing:1};
 const MICRO      = {padding:"3px 9px",borderRadius:5,border:"1.5px solid #e2e8f0",background:"#f8fafc",color:"#64748b",fontFamily:"inherit",fontSize:10,fontWeight:600,cursor:"pointer"};
-const ICON_BTN   = {background:"none",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,color:"#94a3b8",fontSize:18,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"  // ── ELITE EIGHT ──
-  // parlay odds stored on e1 as special key
-  e1: { dog:"Iowa Hawkeyes",        underdog_ml:"NO BET", first_10:"+130", tie:"" },
-  e2: { dog:"Purdue Boilermakers",  underdog_ml:"NO BET", first_10:"+115", tie:"" },
-  e3: { dog:"Tennessee Volunteers", underdog_ml:"NO BET", first_10:"+130", tie:"" },
-  e4: { dog:"UConn Huskies",        underdog_ml:"NO BET", first_10:"+125", tie:"" },
-};
+const ICON_BTN   = {background:"none",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,color:"#94a3b8",fontSize:18,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"};
