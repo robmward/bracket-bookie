@@ -753,7 +753,7 @@ export default function App() {
                       <div key={k} style={{flex:"1 1 120px",background:BET_LIGHT[k],border:`2px solid ${BET_COLOR[k]}`,borderRadius:10,padding:"12px 14px"}}>
                         <div style={{fontSize:10,color:BET_COLOR[k],fontWeight:600,marginBottom:3}}>{BET_EMOJI[k]} {BET_LABELS[k]}</div>
                         <div style={{fontSize:30,fontWeight:900,color:BET_COLOR[k]}}>${poolTotals[k].toFixed(0)}</div>
-                        <div style={{fontSize:10,color:"#64748b",marginTop:3}}>÷{numPerKey[k]} = <b>${perGame[k].toFixed(2)}/game</b></div>
+                        <div style={{fontSize:10,color:"#64748b",marginTop:3}}><b>${poolTotals[k].toFixed(0)}</b> ÷ {numGames} games</div>
                       </div>
                     ))}
                     <div style={{flex:"1 1 120px",background:"#f0fdf4",border:"2px solid #16a34a",borderRadius:10,padding:"12px 14px"}}>
