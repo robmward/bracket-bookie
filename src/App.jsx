@@ -69,15 +69,6 @@ const ELITE8 = [
   { id:"e4",  date:"Sun Mar 29", time:"5:05 PM",  away:"UConn Huskies",        home:"Duke Blue Devils",         seed_away:2,  seed_home:1,  region:"East",    tv:"CBS"   },
 ];
 
-const ELITE8 = [
-  // ── SATURDAY MAR 28 ──
-  { id:"e1", date:"Sat Mar 28", time:"6:09 PM",  away:"Iowa Hawkeyes",       home:"Illinois Fighting Illini", seed_away:9,  seed_home:3, region:"South",  tv:"TBS",  favorite:"Illinois Fighting Illini" },
-  { id:"e2", date:"Sat Mar 28", time:"8:49 PM",  away:"Purdue Boilermakers", home:"Arizona Wildcats",         seed_away:2,  seed_home:1, region:"West",   tv:"TBS",  favorite:"Arizona Wildcats" },
-  // ── SUNDAY MAR 29 ──
-  { id:"e3", date:"Sun Mar 29", time:"2:15 PM",  away:"Tennessee Volunteers",home:"Michigan Wolverines",      seed_away:6,  seed_home:1, region:"Midwest",tv:"CBS",  favorite:"Michigan Wolverines" },
-  { id:"e4", date:"Sun Mar 29", time:"5:05 PM",  away:"UConn Huskies",       home:"Duke Blue Devils",         seed_away:2,  seed_home:1, region:"East",   tv:"CBS",  favorite:"Duke Blue Devils" },
-];
-
 // ── ROUNDS CONFIG ──────────────────────────────────────────────────────────
 // Add new rounds here as tournament progresses. Set active:false to skip a round.
 const ROUNDS = [
@@ -86,7 +77,6 @@ const ROUNDS = [
   { id:"round32",   label:"🔥 Round of 32",  short:"R32",  games:ROUND32,    dates:"Mar 21-22", active:true  },
   { id:"elite8",    label:"🏆 Elite Eight",  short:"E8",   games:ELITE8,     dates:"Mar 28-29", active:true  },
   { id:"sweet16",   label:"🌟 Sweet 16",     short:"S16",  games:[],         dates:"Mar 26-27", active:false },
-  { id:"elite8",    label:"🔥 Elite Eight", short:"E8",   games:ELITE8,     dates:"Mar 28-29", active:true  },
 ];
 
 const ALL_GAMES  = ROUNDS.flatMap(r=>r.active?r.games:[]);
