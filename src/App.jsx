@@ -58,13 +58,35 @@ const ROUND32 = [
   // ── SUNDAY MAR 22 — TBD ──
 ];
 
+const ELITE8 = [
+  // Special parlay entry — one bet for the whole round
+  { id:"e0",  date:"Sat Mar 28", time:"All day", away:"Illinois / Arizona / Michigan / Duke", home:"4-Team Parlay", seed_away:0, seed_home:0, region:"Elite 8", tv:"CBS/TBS", parlay:true },
+  // ── SATURDAY MAR 28 ──
+  { id:"e1",  date:"Sat Mar 28", time:"6:09 PM",  away:"Iowa Hawkeyes",        home:"Illinois Fighting Illini", seed_away:9,  seed_home:3,  region:"South",   tv:"TBS"   },
+  { id:"e2",  date:"Sat Mar 28", time:"8:49 PM",  away:"Purdue Boilermakers",  home:"Arizona Wildcats",         seed_away:2,  seed_home:1,  region:"West",    tv:"CBS"   },
+  // ── SUNDAY MAR 29 ──
+  { id:"e3",  date:"Sun Mar 29", time:"2:15 PM",  away:"Tennessee Volunteers", home:"Michigan Wolverines",      seed_away:6,  seed_home:1,  region:"Midwest", tv:"TBS"   },
+  { id:"e4",  date:"Sun Mar 29", time:"5:05 PM",  away:"UConn Huskies",        home:"Duke Blue Devils",         seed_away:2,  seed_home:1,  region:"East",    tv:"CBS"   },
+];
+
+const ELITE8 = [
+  // ── SATURDAY MAR 28 ──
+  { id:"e1", date:"Sat Mar 28", time:"6:09 PM",  away:"Iowa Hawkeyes",       home:"Illinois Fighting Illini", seed_away:9,  seed_home:3, region:"South",  tv:"TBS",  favorite:"Illinois Fighting Illini" },
+  { id:"e2", date:"Sat Mar 28", time:"8:49 PM",  away:"Purdue Boilermakers", home:"Arizona Wildcats",         seed_away:2,  seed_home:1, region:"West",   tv:"TBS",  favorite:"Arizona Wildcats" },
+  // ── SUNDAY MAR 29 ──
+  { id:"e3", date:"Sun Mar 29", time:"2:15 PM",  away:"Tennessee Volunteers",home:"Michigan Wolverines",      seed_away:6,  seed_home:1, region:"Midwest",tv:"CBS",  favorite:"Michigan Wolverines" },
+  { id:"e4", date:"Sun Mar 29", time:"5:05 PM",  away:"UConn Huskies",       home:"Duke Blue Devils",         seed_away:2,  seed_home:1, region:"East",   tv:"CBS",  favorite:"Duke Blue Devils" },
+];
+
 // ── ROUNDS CONFIG ──────────────────────────────────────────────────────────
 // Add new rounds here as tournament progresses. Set active:false to skip a round.
 const ROUNDS = [
   { id:"firstfour", label:"🎟 First Four",   short:"FF",   games:FIRST_FOUR, dates:"Mar 17-18", active:true  },
   { id:"round64",   label:"🏀 Round of 64",  short:"R64",  games:ROUND64,    dates:"Mar 19-20", active:true  },
   { id:"round32",   label:"🔥 Round of 32",  short:"R32",  games:ROUND32,    dates:"Mar 21-22", active:true  },
+  { id:"elite8",    label:"🏆 Elite Eight",  short:"E8",   games:ELITE8,     dates:"Mar 28-29", active:true  },
   { id:"sweet16",   label:"🌟 Sweet 16",     short:"S16",  games:[],         dates:"Mar 26-27", active:false },
+  { id:"elite8",    label:"🔥 Elite Eight", short:"E8",   games:ELITE8,     dates:"Mar 28-29", active:true  },
 ];
 
 const ALL_GAMES  = ROUNDS.flatMap(r=>r.active?r.games:[]);
@@ -74,6 +96,7 @@ const BET_EMOJI  = { underdog_ml:"🐶", first_10:"🏀", tie:"🤝" };
 const BET_COLOR  = { underdog_ml:"#d97706", first_10:"#2563eb", tie:"#7c3aed" };
 const BET_LIGHT  = { underdog_ml:"#fef3c7", first_10:"#dbeafe", tie:"#ede9fe" };
 const ADMIN_PIN  = "1234";
+const PARLAY_ROUNDS = { elite8: { odds:"+234", legs:["Illinois","Arizona","Michigan","Duke"], label:"4-Team Favorites Parlay" } };
 const STORE_KEY  = "bracket_bookie_v2";
 const FN_URL = "/.netlify/functions/gamedata";
 
@@ -139,6 +162,12 @@ const DEFAULT_ODDS = {
   s6: { dog:"VCU Rams",                 underdog_ml:"+410",  first_10:"+150", tie:"" },
   s7: { dog:"Nebraska Cornhuskers",     underdog_ml:"+124",  first_10:"-105", tie:"" },
   s8: { dog:"High Point Panthers",      underdog_ml:"+500",  first_10:"+150", tie:"" },
+  // ── ELITE EIGHT ──
+  e0: { dog:"4-Team Parlay",           underdog_ml:"+234",  first_10:"N/A",  tie:"N/A" },
+  e1: { dog:"Iowa Hawkeyes",           underdog_ml:"N/A",   first_10:"+130", tie:"+900" },
+  e2: { dog:"Purdue Boilermakers",     underdog_ml:"N/A",   first_10:"+115", tie:"+850" },
+  e3: { dog:"Tennessee Volunteers",    underdog_ml:"N/A",   first_10:"+130", tie:"+900" },
+  e4: { dog:"UConn Huskies",           underdog_ml:"N/A",   first_10:"+125", tie:"+850" },
 };
 
 const fmt = (v) => { const n=parseFloat(v); if(!v||isNaN(n)) return null; return n>0?`+${n}`:`${n}`; };
@@ -165,7 +194,7 @@ const RoundBtn = ({active,onClick,skipped,children}) => (
 
 export default function App() {
   const [screen,       setScreen]       = useState("public");
-  const [pubRound,     setPubRound]     = useState("round64");
+  const [pubRound,     setPubRound]     = useState("elite8");
   const [adminTab,     setAdminTab]     = useState("odds");
   const [adminRound,   setAdminRound]   = useState("firstfour");
   const [pin,          setPin]          = useState("");
@@ -393,6 +422,25 @@ export default function App() {
   // ── game card renderers ────────────────────────────────────────────────
   const pubCard = (game) => {
     const go=odds[game.id]||{}, res=results[game.id]||{};
+    if (game.parlay) return (
+      <div key={game.id} style={{...PUB_CARD,border:"2px solid #f59e0b",background:"#fffbeb"}}>
+        <div style={{padding:"14px 18px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}}>
+          <div>
+            <div style={{fontSize:10,color:"#92400e",letterSpacing:2,marginBottom:4,fontWeight:700}}>🎯 4-TEAM PARLAY · ALL FAVORITES</div>
+            <div style={{fontWeight:800,fontSize:15,color:"#0f172a"}}>Illinois · Arizona · Michigan · Duke</div>
+          </div>
+          <div style={{display:"flex",gap:10,alignItems:"center"}}>
+            <div style={{background:"#fef3c7",border:"2px solid #f59e0b",borderRadius:10,padding:"10px 16px",textAlign:"center"}}>
+              <div style={{fontSize:10,color:"#92400e",fontWeight:700,marginBottom:2}}>PARLAY ODDS</div>
+              <div style={{fontSize:28,fontWeight:900,color:res.underdog_ml===true?"#15803d":res.underdog_ml===false?"#dc2626":"#92400e"}}>{fmt(go.underdog_ml)||"—"}</div>
+              {res.underdog_ml===true&&<div style={{fontSize:10,color:"#16a34a",fontWeight:700}}>✅ HIT</div>}
+              {res.underdog_ml===false&&<div style={{fontSize:10,color:"#dc2626",fontWeight:700}}>❌ MISS</div>}
+              {res.underdog_ml===undefined&&go.underdog_ml&&<div style={{fontSize:9,color:"#94a3b8"}}>Pending</div>}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
     if (game.nobet) return (
       <div key={game.id} style={{...PUB_CARD,opacity:0.5}}>
         <div style={{padding:"14px 18px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}}>
@@ -441,6 +489,32 @@ export default function App() {
 
   const adminCard = (game, perGame) => {
     const go=odds[game.id]||{}, res=results[game.id]||{};
+    if (game.parlay) return (
+      <div key={game.id} style={{...ADMIN_CARD,border:"2px solid #f59e0b"}}>
+        <div style={{padding:"12px 16px 8px",borderBottom:"1px solid #f1f5f9",background:"#fffbeb"}}>
+          <div style={{fontSize:9,color:"#92400e",letterSpacing:2,marginBottom:3,fontWeight:700}}>🎯 4-TEAM PARLAY — ALL FAVORITES WIN</div>
+          <div style={{fontWeight:800,fontSize:15,color:"#0f172a"}}>Illinois · Arizona · Michigan · Duke</div>
+        </div>
+        <div style={{padding:"10px 16px 6px",display:"flex",gap:10,alignItems:"flex-end"}}>
+          <div style={{flex:"1 1 120px"}}>
+            <div style={FLD_LBL}>PARLAY ODDS</div>
+            <input value={go.underdog_ml||""} onChange={e=>setOddsField(game.id,"underdog_ml",e.target.value)} placeholder="+234"
+              style={{...FIELD,color:go.underdog_ml?"#d97706":"#94a3b8",fontWeight:go.underdog_ml?700:400,borderColor:go.underdog_ml?"#d97706":"#cbd5e1"}}/>
+          </div>
+          {perGame.underdog_ml>0&&go.underdog_ml&&(
+            <div style={{fontSize:11,color:"#475569",paddingBottom:10}}>
+              Bet <b style={{color:"#d97706"}}>${perGame.underdog_ml.toFixed(2)}</b>
+              {calcPayout(perGame.underdog_ml,go.underdog_ml)&&<span style={{color:"#16a34a"}}> → ${calcPayout(perGame.underdog_ml,go.underdog_ml).toFixed(2)}</span>}
+            </div>
+          )}
+        </div>
+        <div style={{padding:"8px 16px 12px",borderTop:"1px solid #f8fafc",display:"flex",gap:10,alignItems:"center"}}>
+          <span style={{fontSize:9,color:"#94a3b8",letterSpacing:2,fontWeight:600}}>RESULT:</span>
+          <button onClick={()=>toggleResult(game.id,"underdog_ml",true)}  style={{...TOG,background:res.underdog_ml===true ?"#16a34a":"#f0fdf4",color:res.underdog_ml===true ?"#fff":"#16a34a",borderColor:"#16a34a"}}>✅ HIT</button>
+          <button onClick={()=>toggleResult(game.id,"underdog_ml",false)} style={{...TOG,background:res.underdog_ml===false?"#dc2626":"#fef2f2",color:res.underdog_ml===false?"#fff":"#dc2626",borderColor:"#dc2626"}}>❌ MISS</button>
+        </div>
+      </div>
+    );
     return (
       <div key={game.id} style={ADMIN_CARD}>
         <div style={{padding:"12px 16px 8px",borderBottom:"1px solid #f1f5f9"}}>
@@ -515,6 +589,24 @@ export default function App() {
           ))}
         </div>
         <div style={CONTENT}>
+          {PARLAY_ROUNDS[pubRound]&&(()=>{
+            const pr=results["parlay_"+pubRound];
+            const hit=pr?.parlay;
+            return (
+            <div style={{background:"#1e3a5f",borderRadius:14,padding:"16px 20px",marginBottom:24,border:`2px solid ${hit===true?"#16a34a":hit===false?"#dc2626":"#f59e0b"}`}}>
+              <div style={{fontSize:10,letterSpacing:3,color:"#f59e0b",fontWeight:700,marginBottom:6}}>🎰 {PARLAY_ROUNDS[pubRound].label.toUpperCase()}</div>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:10}}>
+                <div style={{color:"#cbd5e1",fontSize:13}}>{PARLAY_ROUNDS[pubRound].legs.join(" · ")}</div>
+                <div style={{display:"flex",alignItems:"center",gap:16}}>
+                  <div style={{fontSize:32,fontWeight:900,color:"#f59e0b"}}>{PARLAY_ROUNDS[pubRound].odds}</div>
+                  {hit===true&&<span style={{background:"#16a34a",color:"#fff",borderRadius:8,padding:"6px 14px",fontWeight:800,fontSize:14}}>✅ HIT</span>}
+                  {hit===false&&<span style={{background:"#dc2626",color:"#fff",borderRadius:8,padding:"6px 14px",fontWeight:800,fontSize:14}}>❌ MISS</span>}
+                  {hit===undefined&&<span style={{color:"#64748b",fontSize:12}}>Pending</span>}
+                </div>
+              </div>
+            </div>
+            );
+          })()}
           {Object.entries(grouped).map(([date,gs])=>(
             <div key={date} style={{marginBottom:32}}>
               <div style={DATE_HDR}>{date}</div>
@@ -622,6 +714,22 @@ export default function App() {
                   </div>
                 )}
 
+                {PARLAY_ROUNDS[adminRound]&&(
+                  <div style={{background:"#1e3a5f",borderRadius:12,padding:"14px 18px",marginBottom:20,border:"2px solid #f59e0b"}}>
+                    <div style={{fontSize:10,letterSpacing:3,color:"#f59e0b",fontWeight:700,marginBottom:6}}>🎰 {PARLAY_ROUNDS[adminRound].label.toUpperCase()}</div>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:10}}>
+                      <div style={{color:"#cbd5e1",fontSize:13}}>{PARLAY_ROUNDS[adminRound].legs.join(" · ")}</div>
+                      <div style={{fontSize:28,fontWeight:900,color:"#f59e0b"}}>{PARLAY_ROUNDS[adminRound].odds}</div>
+                    </div>
+                    <div style={{marginTop:10,display:"flex",gap:8}}>
+                      <button onClick={()=>toggleResult("parlay_"+adminRound,"parlay",true)}
+                        style={{...TOG,background:results["parlay_"+adminRound]?.parlay===true?"#16a34a":"#f0fdf4",color:results["parlay_"+adminRound]?.parlay===true?"#fff":"#16a34a",borderColor:"#16a34a"}}>✅ HIT</button>
+                      <button onClick={()=>toggleResult("parlay_"+adminRound,"parlay",false)}
+                        style={{...TOG,background:results["parlay_"+adminRound]?.parlay===false?"#dc2626":"#fef2f2",color:results["parlay_"+adminRound]?.parlay===false?"#fff":"#dc2626",borderColor:"#dc2626"}}>❌ MISS</button>
+                      <span style={{fontSize:11,color:"#94a3b8",alignSelf:"center"}}>Mark parlay result here</span>
+                    </div>
+                  </div>
+                )}
                 {adminGames.length===0
                   ?<div style={{color:"#94a3b8",fontSize:14,padding:"20px 0"}}>No games added for this round yet.</div>
                   :Object.entries(adminGrouped).map(([date,gs])=>(
@@ -853,4 +961,10 @@ const BTN_OUTLINE= {display:"block",width:"100%",padding:"10px 0",borderRadius:8
 const BTN_SM     = {padding:"6px 14px",borderRadius:7,fontFamily:"'DM Mono','Courier New',monospace",fontSize:11,fontWeight:700,cursor:"pointer"};
 const TOG        = {padding:"4px 10px",borderRadius:6,border:"2px solid",fontFamily:"'DM Mono','Courier New',monospace",fontSize:10,fontWeight:700,cursor:"pointer",letterSpacing:1};
 const MICRO      = {padding:"3px 9px",borderRadius:5,border:"1.5px solid #e2e8f0",background:"#f8fafc",color:"#64748b",fontFamily:"inherit",fontSize:10,fontWeight:600,cursor:"pointer"};
-const ICON_BTN   = {background:"none",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,color:"#94a3b8",fontSize:18,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"};
+const ICON_BTN   = {background:"none",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,color:"#94a3b8",fontSize:18,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"  // ── ELITE EIGHT ──
+  // parlay odds stored on e1 as special key
+  e1: { dog:"Iowa Hawkeyes",        underdog_ml:"NO BET", first_10:"+130", tie:"" },
+  e2: { dog:"Purdue Boilermakers",  underdog_ml:"NO BET", first_10:"+115", tie:"" },
+  e3: { dog:"Tennessee Volunteers", underdog_ml:"NO BET", first_10:"+130", tie:"" },
+  e4: { dog:"UConn Huskies",        underdog_ml:"NO BET", first_10:"+125", tie:"" },
+};
