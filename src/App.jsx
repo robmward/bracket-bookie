@@ -82,6 +82,7 @@ const ROUNDS = [
 const ALL_GAMES  = ROUNDS.flatMap(r=>r.active?r.games:[]);
 const BET_KEYS   = ["underdog_ml","first_10","tie"];
 const BET_LABELS = { underdog_ml:"Dog ML", first_10:"First to 10", tie:"Tie" };
+const BET_LABELS_E8 = { underdog_ml:"Parlay", first_10:"First to 10", tie:"Tie" };
 const BET_EMOJI  = { underdog_ml:"🐶", first_10:"🏀", tie:"🤝" };
 const BET_COLOR  = { underdog_ml:"#d97706", first_10:"#2563eb", tie:"#7c3aed" };
 const BET_LIGHT  = { underdog_ml:"#fef3c7", first_10:"#dbeafe", tie:"#ede9fe" };
@@ -625,6 +626,7 @@ export default function App() {
   // ── ADMIN ──────────────────────────────────────────────────────────────
   const curRoundObj  = ROUNDS.find(r=>r.id===adminRound)||ROUNDS[0];
   const isSkipped    = skipped[adminRound];
+  const RLABELS      = adminRound==="elite8" ? BET_LABELS_E8 : BET_LABELS;
   const {people,numGames,poolTotals,perGame,hitCounts,totalIn,totalPayouts,personPayouts} = getRoundMath(adminRound);
   const adminGames   = curRoundObj.games;
   const adminGrouped = groupBy(adminGames,g=>g.date);
@@ -695,7 +697,7 @@ export default function App() {
                         return (
                           <div key={k} style={{flex:"1 1 150px",background:BET_LIGHT[k],border:`2px solid ${BET_COLOR[k]}`,borderRadius:10,padding:"10px 14px"}}>
                             <div style={{fontSize:10,color:BET_COLOR[k],fontWeight:600,marginBottom:3}}>{BET_EMOJI[k]} {BET_LABELS[k]}</div>
-                            <div style={{fontSize:11,color:"#475569",marginBottom:4}}><b>${poolTotals[k].toFixed(0)}</b> ÷ {numPerKey[k]} games</div>
+                            <div style={{fontSize:11,color:"#475569",marginBottom:4}}><b>${poolTotals[k].toFixed(0)}</b> ÷ {numGames} games</div>
                             <div style={{fontSize:24,fontWeight:900,color:BET_COLOR[k]}}>${per.toFixed(2)}<span style={{fontSize:11,color:"#64748b"}}>/game</span></div>
                           </div>
                         );
@@ -753,7 +755,7 @@ export default function App() {
                       <div key={k} style={{flex:"1 1 120px",background:BET_LIGHT[k],border:`2px solid ${BET_COLOR[k]}`,borderRadius:10,padding:"12px 14px"}}>
                         <div style={{fontSize:10,color:BET_COLOR[k],fontWeight:600,marginBottom:3}}>{BET_EMOJI[k]} {BET_LABELS[k]}</div>
                         <div style={{fontSize:30,fontWeight:900,color:BET_COLOR[k]}}>${poolTotals[k].toFixed(0)}</div>
-                        <div style={{fontSize:10,color:"#64748b",marginTop:3}}><b>${poolTotals[k].toFixed(0)}</b> ÷ {numGames} games</div>
+                        <div style={{fontSize:10,color:"#64748b",marginTop:3}}>÷{numGames} = <b>${perGame[k].toFixed(2)}/game</b></div>
                       </div>
                     ))}
                     <div style={{flex:"1 1 120px",background:"#f0fdf4",border:"2px solid #16a34a",borderRadius:10,padding:"12px 14px"}}>
@@ -773,7 +775,7 @@ export default function App() {
                     </div>
                     {BET_KEYS.map(k=>(
                       <div key={k} style={{flex:"1 1 100px"}}>
-                        <div style={FLD_LBL}>{BET_EMOJI[k]} {BET_LABELS[k]} ($)</div>
+                        <div style={FLD_LBL}>{BET_EMOJI[k]} {RLABELS[k]} ($)</div>
                         <input type="number" min="0" value={pForm[k]} onChange={e=>setPForm(f=>({...f,[k]:e.target.value}))} placeholder="0"
                           style={{...FIELD,borderColor:pForm[k]?BET_COLOR[k]:"#cbd5e1",color:pForm[k]?BET_COLOR[k]:"#0f172a",fontWeight:pForm[k]?700:400}}/>
                       </div>
@@ -794,7 +796,7 @@ export default function App() {
                       <button onClick={exportCSV} style={{...BTN_SM,background:"#1e3a5f",color:"#fff",border:"none"}}>⬇️ Export CSV</button>
                     </div>
                     <div style={{display:"grid",gridTemplateColumns:"1.4fr 1fr 1fr 1fr 80px",background:"#f8fafc",padding:"8px 18px",fontSize:10,letterSpacing:2,color:"#94a3b8",fontWeight:700,gap:8}}>
-                      <div>NAME</div>{BET_KEYS.map(k=><div key={k}>{BET_EMOJI[k]} {BET_LABELS[k].toUpperCase()}</div>)}<div></div>
+                      <div>NAME</div>{BET_KEYS.map(k=><div key={k}>{BET_EMOJI[k]} {RLABELS[k].toUpperCase()}</div>)}<div></div>
                     </div>
                     {people.map(([name,d],i)=>(
                       <div key={name} style={{borderTop:"1px solid #f1f5f9",display:"grid",gridTemplateColumns:"1.4fr 1fr 1fr 1fr 80px",padding:"12px 18px",alignItems:"center",gap:8,background:i%2===0?"#fff":"#fafafa"}}>
@@ -830,7 +832,7 @@ export default function App() {
                     const paid=people.reduce((s,[name])=>{const po=personPayouts(name);return s+(po[k]?.winnings||0);},0);
                     return (
                       <div key={k} style={{flex:"1 1 140px",background:"#fff",border:`2px solid ${BET_COLOR[k]}`,borderRadius:12,padding:"14px 16px"}}>
-                        <div style={{fontSize:10,color:BET_COLOR[k],fontWeight:700,marginBottom:4}}>{BET_EMOJI[k]} {BET_LABELS[k].toUpperCase()}</div>
+                        <div style={{fontSize:10,color:BET_COLOR[k],fontWeight:700,marginBottom:4}}>{BET_EMOJI[k]} {RLABELS[k].toUpperCase()}</div>
                         <div style={{fontSize:11,color:"#64748b",marginBottom:6}}>Pool: <b style={{color:"#0f172a"}}>${poolTotals[k].toFixed(0)}</b></div>
                         <div style={{fontSize:22,fontWeight:900,color:hc>0?"#15803d":"#94a3b8"}}>{hc} hit{hc!==1?"s":""}</div>
                         {paid>0&&<div style={{fontSize:12,color:"#dc2626",fontWeight:700,marginTop:4}}>Pay out: ${paid.toFixed(2)}</div>}
@@ -881,7 +883,7 @@ export default function App() {
                                 const info=po[k],hc=hitCounts[k];
                                 return (
                                   <div key={k} style={{flex:"1 1 160px",background:BET_LIGHT[k],border:`1.5px solid ${BET_COLOR[k]}`,borderRadius:8,padding:"8px 12px",fontSize:11}}>
-                                    <span style={{color:BET_COLOR[k],fontWeight:700}}>{BET_EMOJI[k]} {BET_LABELS[k]}</span>
+                                    <span style={{color:BET_COLOR[k],fontWeight:700}}>{BET_EMOJI[k]} {RLABELS[k]}</span>
                                     <div style={{color:"#475569",marginTop:2}}>In: <b>${d[k].toFixed(0)}</b> · {info.share}% of pool</div>
                                     {hc>0
                                       ?<div style={{color:"#15803d",fontWeight:700,marginTop:2}}>{hc} hit{hc>1?"s":""} → +${info.winnings.toFixed(2)}</div>
