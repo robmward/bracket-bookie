@@ -16,89 +16,17 @@
       "underdog_ml": true
     },
     "r5": {
-      "first_10": false,
-      "underdog_ml": false,
-      "tie": false
+      "first_10": null
     },
     "r28": {
-      "first_10": true,
-      "underdog_ml": false,
-      "tie": false
+      "first_10": null,
+      "underdog_ml": null,
+      "tie": null
     },
     "ff4": {
       "first_10": true,
       "underdog_ml": true,
       "tie": false
-    },
-    "r2": {
-      "first_10": true,
-      "underdog_ml": true,
-      "tie": false
-    },
-    "r11": {
-      "first_10": false,
-      "underdog_ml": true,
-      "tie": false
-    },
-    "r29": {
-      "underdog_ml": true,
-      "first_10": true,
-      "tie": true
-    },
-    "r27": {
-      "first_10": true,
-      "underdog_ml": false,
-      "tie": false
-    },
-    "r31": {
-      "first_10": true,
-      "tie": false,
-      "underdog_ml": true
-    },
-    "r13": {
-      "first_10": true,
-      "tie": false,
-      "underdog_ml": true
-    },
-    "r17": {
-      "tie": false,
-      "first_10": false,
-      "underdog_ml": false
-    },
-    "r12": {
-      "tie": false,
-      "first_10": false,
-      "underdog_ml": false
-    },
-    "r6": {
-      "underdog_ml": false,
-      "first_10": false,
-      "tie": false
-    },
-    "r1": {
-      "tie": false,
-      "first_10": false,
-      "underdog_ml": false
-    },
-    "r32": {
-      "tie": false,
-      "underdog_ml": false,
-      "first_10": true
-    },
-    "r14": {
-      "tie": false,
-      "underdog_ml": false,
-      "first_10": true
-    },
-    "r18": {
-      "tie": false,
-      "underdog_ml": true,
-      "first_10": true
-    },
-    "r30": {
-      "tie": false,
-      "underdog_ml": false,
-      "first_10": false
     }
   },
   "skipped": {}
